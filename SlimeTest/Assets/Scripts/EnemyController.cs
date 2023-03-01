@@ -8,16 +8,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private List<Enemy> _enemies;
     [SerializeField] private GameManager _gameManager;
 
+
     private int _counter;
     public IEnumerable<Enemy> Enemies => _enemies;
     
     
 
-    void Start()
-    {
-
-    }
-
+   
     public void CheckListEnemies()
     {
         _counter++;
@@ -39,6 +36,9 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        
+
+
         if (_gameManager.GameIsPaused)
         {
             return;
@@ -103,7 +103,15 @@ public class EnemyController : MonoBehaviour
                     _enemies[i].RotationToClosestEnemy();
                     _enemies[i].MovementToTarget();
                 }
+
             }
+
+
+            if (_enemies[8] == null)
+            {
+                _gameManager.AwakeFinishPanel();
+            }
+
         }
     }
 }

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text _cashText;
     [SerializeField] private GameObject _panelYouDied;
     [SerializeField] private GameObject _restartButton;
+    [SerializeField] private GameObject _panelYouWin;
 
     private int _cash;
     private bool _isPaused;
@@ -33,6 +34,12 @@ public class GameManager : MonoBehaviour
         _restartButton.SetActive(true);
     }
 
+    public void AwakeFinishPanel()
+    {
+        _isPaused = true;
+        _restartButton.SetActive(true);
+        _panelYouWin.SetActive(true);
+    }
     public void RestartButton()
     {
         SceneManager.LoadScene("MainScene");

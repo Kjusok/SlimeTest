@@ -77,29 +77,13 @@ public class Slime : MonoBehaviour
         }
 
 
-
+        Debug.Log(_timerForForward);
         //if (Input.GetKeyDown(KeyCode.J))
         //{
         //    InstantiatePopUpText();
         //}
 
-        if (_timerForForward > 0)
-        {
-            _timerForForward -= Time.deltaTime;
-
-            if (_timerForForward > TimeWhenNeedToSlowDown)
-            {
-                _monementIndex = MaxIndexForMove;
-            }
-            else
-            {
-                _monementIndex = MinIndexForMove;
-            }
-        }
-        else
-        {
-            _monementIndex = 0;
-        }
+        
 
         if (_monementIndex == 0 && _gameManager.GameIsStarted)
         {
@@ -255,6 +239,25 @@ public class Slime : MonoBehaviour
         {
             return;
         }
+
         _rigidbody.AddForce(new Vector3(_monementIndex, 0.0f, 0.0f) * _speed, ForceMode.Impulse);
+
+        if (_timerForForward > 0)
+        {
+            _timerForForward -= Time.deltaTime;
+
+            if (_timerForForward > TimeWhenNeedToSlowDown)
+            {
+                _monementIndex = MaxIndexForMove;
+            }
+            else
+            {
+                _monementIndex = MinIndexForMove;
+            }
+        }
+        else
+        {
+            _monementIndex = 0;
+        }
     }
 }
