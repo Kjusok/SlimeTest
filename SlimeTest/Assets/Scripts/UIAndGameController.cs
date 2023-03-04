@@ -1,30 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class UIAndGameController : MonoBehaviour
 {
-    [SerializeField] private GameObject _startButton;
-    [SerializeField] private Slime _slime;
+    private const int PriceForCharacteristics = 25;
+    private const int PriceForRecoverHP = 10;
 
-    [SerializeField] private Text _cashText;
+    [SerializeField] private Player _player;
+    [SerializeField] private Text _walletText;
+    [SerializeField] private GameObject _startButton;
     [SerializeField] private GameObject _panelYouDied;
     [SerializeField] private GameObject _restartButton;
     [SerializeField] private GameObject _panelYouWin;
 
-    private int _cash;
+    private int _wallet;
     private bool _isPaused;
+
     public bool GameIsPaused => _isPaused;
     public bool GameIsStarted
     {
         get; private set;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
 
+
+    private void RemoveFromScore(int coins)
+    {
+        _wallet -= coins;
+        string scoreTextWithZero = string.Format("{0:D6}", _wallet);
+
+        _walletText.text = scoreTextWithZero;
     }
 
     public void AwakePanelYouDied()
@@ -40,74 +45,60 @@ public class GameManager : MonoBehaviour
         _restartButton.SetActive(true);
         _panelYouWin.SetActive(true);
     }
+
     public void RestartButton()
     {
         SceneManager.LoadScene("MainScene");
     }
 
-    public void AddCoinsToCash(int coins)
+    public void AddCoinsToWallet(int coins)
     {
-        _cash += coins;
-        string scoreTextWithZero = string.Format("{0:D6}", _cash);
+        _wallet += coins;
+        string scoreTextWithZero = string.Format("{0:D6}", _wallet);
 
-        _cashText.text = scoreTextWithZero;
-       
-
-    }
-
-    private void RemoveCash(int coins)
-    {
-        
-        _cash -= coins;
-        string scoreTextWithZero = string.Format("{0:D6}", _cash);
-
-        _cashText.text = scoreTextWithZero;
+        _walletText.text = scoreTextWithZero;
     }
 
     public void UpDamageButton()
     {
-        if(_cash >= 25)
+        if(_wallet >= PriceForCharacteristics)
         {
-            _slime.UpDamage();
-            RemoveCash(25);
+            _player.UpDamage();
+            RemoveFromScore(PriceForCharacteristics);
         }
     }
 
     public void UpSpeedAtackButton()
     {
-        if (_cash >= 25)
+        if (_wallet >= PriceForCharacteristics)
         {
-            _slime.UpSpeedAtack();
-            RemoveCash(25);
+            _player.UpSpeedAttack();
+            RemoveFromScore(PriceForCharacteristics);
         }
     }
+
     public void UpHealthButton()
     {
-        if (_cash >= 25)
+        if (_wallet >= PriceForCharacteristics)
         {
-            RemoveCash(25);
-            _slime.UpHealth();
+            RemoveFromScore(PriceForCharacteristics);
+            _player.UpHealth();
         }
     }
 
     public void RecoveryHealthButton()
     {
-        if (_cash >= 10)
+        if (_wallet >= PriceForRecoverHP)
         {
-            _slime.RecoveryHP();
-            RemoveCash(10);
+            _player.RecoveryHP();
+            RemoveFromScore(PriceForRecoverHP);
         }
     }
+
     public void PressStartButton()
     {
-        _slime.StartMovement();
+        _player.StartMovement();
         GameIsStarted = true;
         _startButton.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

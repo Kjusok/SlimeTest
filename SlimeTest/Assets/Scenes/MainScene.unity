@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 23139009}
   - component: {fileID: 23139008}
   m_Layer: 5
-  m_Name: UpSpeedAtack
+  m_Name: "UpSpeedAt\u0435ack"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 304012679}
   - component: {fileID: 304012678}
   m_Layer: 5
-  m_Name: Cash
+  m_Name: Wallet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1182,6 +1182,14 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 499309585}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndScenceController
+      value: 
+      objectReference: {fileID: 770243075}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
 --- !u!1 &456149388
@@ -1368,7 +1376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c190d18229ca74e41ad8b8fe13787cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slime: {fileID: 1367570701}
+  _player: {fileID: 1367570701}
   _enemies:
   - {fileID: 916258429}
   - {fileID: 765343158}
@@ -1379,7 +1387,7 @@ MonoBehaviour:
   - {fileID: 2113397004}
   - {fileID: 88264788}
   - {fileID: 970035869}
-  _gameManager: {fileID: 770243075}
+  _UIAndGameController: {fileID: 770243075}
 --- !u!4 &499309586
 Transform:
   m_ObjectHideFlags: 0
@@ -1635,6 +1643,14 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 499309585}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndScenceController
+      value: 
+      objectReference: {fileID: 770243075}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
 --- !u!1 &671267397
@@ -1935,6 +1951,14 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 499309585}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndScenceController
+      value: 
+      objectReference: {fileID: 770243075}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
 --- !u!114 &765343158 stripped
@@ -2070,9 +2094,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a044be6e9f03914d988d44dbaacda8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 1367570701}
+  _walletText: {fileID: 304012678}
   _startButton: {fileID: 143216489}
-  _slime: {fileID: 1367570701}
-  _cashText: {fileID: 304012678}
   _panelYouDied: {fileID: 456149388}
   _restartButton: {fileID: 175417877}
   _panelYouWin: {fileID: 2011513886}
@@ -2180,6 +2204,14 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 499309585}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndScenceController
+      value: 
+      objectReference: {fileID: 770243075}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
 --- !u!114 &916258429 stripped
@@ -2302,6 +2334,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3503d0eefc755e840b5ddacf541059cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &980723261 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 4490819163641990959, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+  m_PrefabInstance: {fileID: 4490819162828355107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1013103269
 GameObject:
   m_ObjectHideFlags: 0
@@ -2437,6 +2474,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _canvas
+      value: 
+      objectReference: {fileID: 770243073}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
       propertyPath: _target
       value: 
       objectReference: {fileID: 1367570701}
@@ -2448,6 +2489,14 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 499309585}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndScenceController
+      value: 
+      objectReference: {fileID: 770243075}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
 --- !u!1 &1070187041
@@ -2752,6 +2801,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _canvas
+      value: 
+      objectReference: {fileID: 770243073}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
       propertyPath: _target
       value: 
       objectReference: {fileID: 1367570701}
@@ -2763,6 +2816,14 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 499309585}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndScenceController
+      value: 
+      objectReference: {fileID: 770243075}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
 --- !u!114 &1367570701 stripped
@@ -2929,6 +2990,14 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 499309585}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndScenceController
+      value: 
+      objectReference: {fileID: 770243075}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
 --- !u!1 &1463538155
@@ -3022,7 +3091,7 @@ GameObject:
   - component: {fileID: 1536289844}
   - component: {fileID: 1536289843}
   m_Layer: 5
-  m_Name: CurrentSpeedAtack
+  m_Name: "CurrentSpeedAt\u0435ack"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3281,6 +3350,14 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 499309585}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndScenceController
+      value: 
+      objectReference: {fileID: 770243075}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
 --- !u!1001 &1950354948
@@ -3362,6 +3439,14 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 499309585}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _UIAndScenceController
+      value: 
+      objectReference: {fileID: 770243075}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
 --- !u!4 &1975556444 stripped
@@ -3957,7 +4042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4490819163641990953, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: m_Name
-      value: Slime
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4490819163641990957, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: m_Radius
@@ -3972,6 +4057,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 553879844}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _rigidbody
+      value: 
+      objectReference: {fileID: 980723261}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _prefabText
       value: 
       objectReference: {fileID: 5735771402735165461, guid: ee67379e856cba841b6a3ee8c8301b88, type: 3}
@@ -3979,6 +4068,10 @@ PrefabInstance:
       propertyPath: _gameManager
       value: 
       objectReference: {fileID: 770243075}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _bulletPrefab
+      value: 
+      objectReference: {fileID: 9177843100946662425, guid: beaf08662090b6a478d27de2b7c13d75, type: 3}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _enemyController
       value: 
@@ -3988,9 +4081,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1409627251805502973, guid: 9c4584da97afdd44ab0a7b07f631dc44, type: 3}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _projectilePrefab
+      value: 
+      objectReference: {fileID: 9177843100946662425, guid: beaf08662090b6a478d27de2b7c13d75, type: 3}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _currentDamageText
       value: 
       objectReference: {fileID: 499618039}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _UIAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _currentHealthUpText
       value: 
@@ -3999,6 +4100,18 @@ PrefabInstance:
       propertyPath: _currentAtackSpeedText
       value: 
       objectReference: {fileID: 1536289843}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _prefabPopUpTextDamage
+      value: 
+      objectReference: {fileID: 5735771402735165461, guid: ee67379e856cba841b6a3ee8c8301b88, type: 3}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _currentAttackSpeedText
+      value: 
+      objectReference: {fileID: 1536289843}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _prefabPopUPTextHealtUp
+      value: 
+      objectReference: {fileID: 1409627251805502973, guid: 9c4584da97afdd44ab0a7b07f631dc44, type: 3}
     - target: {fileID: 4490819163641990962, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: m_RootOrder
       value: 4

@@ -1,112 +1,77 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Slime _target;
-    [SerializeField] private float _speedForRotation;
-    [SerializeField] private float _speedForMovement;
-    [SerializeField] private PopUpText _prefabText;
-    [SerializeField] private float _heath;
+    private const int ScorsInsade = 100;
+    private const int LeadToHundredths = 100;
+    private const float TimeForNextHit = 1;
+    private const float CoefForPosX = 0.2f;
+    private const float CoefForPosY = 0.5f;
+
+    [SerializeField] private Player _target;
+    [SerializeField] private PopUpText _prefabPopUpTextDamage;
     [SerializeField] private Image _heathBar;
     [SerializeField] private EnemyController _enemyController;
-    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private UIAndGameController _UIAndGameController;
     [SerializeField] private Canvas _canvas;
+    [SerializeField] private float _speedForRotation;
+    [SerializeField] private float _speedForMovement;
+    [SerializeField] private float _heath;
 
     private bool _targetCatched = false;
-    private float _timerToNextHit;
-    private float _damage = 5;
     private bool IsAtacked;
-    private int _coins;
+    private bool _isActive;
+    private float _timerToNextHit = 1;
+    private float _damage = 5;
+    private int _score;
 
     public bool IsDead
     {
         get; private set;
     }
+   
 
     private void Start()
     {
-        _timerToNextHit = 1;
-        _coins = 100;
+        _score = ScorsInsade;
     }
 
+    private void Update()
+    {
+        if (_UIAndGameController.GameIsPaused)
+        {
+            return;
+        }
 
+        if (_isActive)
+        {
+            RotationToTarget();
+            MovementToTarget();
+        }
 
+        CheckTimeForNextAtack();
+    }
     private void OnTriggerStay(Collider other)
     {
-        var trigger = other.GetComponent<Slime>();
-        
+        var player = other.GetComponent<Player>();
 
-        if (trigger)
+        if (player)
         {
             _targetCatched = true;
 
             if (!IsAtacked)
             {
                 IsAtacked = true;
-                trigger.TakeDamage(_damage);
-                _timerToNextHit = 1;
+                player.TakeDamage(_damage);
+
+                _timerToNextHit = TimeForNextHit;
             }
         }
-
-        
-    }
-    public void RotationToClosestEnemy()
-    {
-        if (!IsDead)
-        {
-            Vector3 direction = _target.transform.position - transform.position;
-            Quaternion rotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _speedForRotation * Time.deltaTime);
-
-        }
-
-
     }
 
-    private void InstantiatePopUpText(float damage)
+    private void CheckTimeForNextAtack()
     {
-        var text = Instantiate(_prefabText, new Vector3(transform.position.x + (Random.Range(-0.2f, 0.2f)), transform.position.y + 0.5f, transform.position.z), transform.rotation);
-        text.transform.SetParent(_canvas.transform, true);
-        text.Initialize("-" + damage.ToString());
-    }
-
-    public void MovementToTarget()
-    {
-        if (!_targetCatched)
-        {
-            transform.Translate(Vector3.forward * _speedForRotation * Time.deltaTime);
-        }
-    }
-
-    public void TakeDamage(int damage)
-    {
-        _heath -= damage;
-
-        InstantiatePopUpText( damage);
-        _heathBar.fillAmount = _heath / 100;
-
-        if(_heath <= 0)
-        {
-            IsDead = true;
-
-            _enemyController.CheckListEnemies();
-            _gameManager.AddCoinsToCash(_coins);
-
-            
-            Destroy(gameObject);
-        }
-    }
-
-    private void Update()
-    {
-        if (_gameManager.GameIsPaused)
-        {
-            return;
-        }
-
         if (_timerToNextHit >= 0)
         {
             _timerToNextHit -= Time.deltaTime;
@@ -115,5 +80,55 @@ public class Enemy : MonoBehaviour
         {
             IsAtacked = false;
         }
+    }
+
+    private void RotationToTarget()
+    {
+        if (!IsDead)
+        {
+            Vector3 direction = _target.transform.position - transform.position;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _speedForRotation * Time.deltaTime);
+        }
+    }
+
+    private void MovementToTarget()
+    {
+        if (!_targetCatched)
+        {
+            transform.Translate(Vector3.forward * _speedForRotation * Time.deltaTime);
+        }
+    }
+
+    private void InstantiatePopUpText(float damage)
+    {
+        var text = Instantiate(_prefabPopUpTextDamage,
+            new Vector3(transform.position.x + (Random.Range(-CoefForPosX, CoefForPosX)), transform.position.y + CoefForPosY, transform.position.z),
+            transform.rotation);
+        text.transform.SetParent(_canvas.transform, true);
+        text.Initialize("-" + damage.ToString());
+    }
+
+    public void TakeDamage(int damage)
+    {
+        _heath -= damage;
+
+        InstantiatePopUpText(damage);
+        _heathBar.fillAmount = _heath / LeadToHundredths;
+
+        if (_heath <= 0)
+        {
+            IsDead = true;
+
+            _enemyController.CheckListEnemies();
+            _UIAndGameController.AddCoinsToWallet(_score);
+
+            Destroy(gameObject);
+        }
+    }
+
+    public void ActivateEnemy()
+    {
+        _isActive = true;
     }
 }

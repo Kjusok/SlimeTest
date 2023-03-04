@@ -1,38 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PopUpText : MonoBehaviour
 {
+    private const float TimeForDeath = 0.3f;
+
     [SerializeField] private Text _text;
     [SerializeField] private float _speed;
-    private float _timerForDead;
+
+    private float _timerForDeath;
+
+
     private void Start()
     {
-        _timerForDead = 0.3f;
-        
+        _timerForDeath = TimeForDeath;
     }
 
-    public void Initialize (string text)
-    {
-        _text.text = text;
-    }
-
-    // Update is called once per frame
     private void Update()
     {
-        //transform.position = new Vector3(transform.position.x, transform.position.y * _speed * Time.deltaTime, transform.position.z);
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
-        if (_timerForDead > 0)
+        if (_timerForDeath > 0)
         {
-            _timerForDead -= Time.deltaTime;
+            _timerForDeath -= Time.deltaTime;
         }
-        if(_timerForDead <= 0)
+        else
         {
             Destroy(gameObject);
         }
     }
 
+    public void Initialize(string text)
+    {
+        _text.text = text;
+    }
 }

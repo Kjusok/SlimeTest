@@ -111,14 +111,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
-  _speedForRotation: 1.5
-  _speedForMovement: 1.2
-  _prefabText: {fileID: 5735771402735165461, guid: ee67379e856cba841b6a3ee8c8301b88, type: 3}
-  _heath: 100
+  _prefabPopUpTextDamage: {fileID: 5735771402735165461, guid: ee67379e856cba841b6a3ee8c8301b88, type: 3}
   _heathBar: {fileID: 732085018003656344}
   _enemyController: {fileID: 0}
-  _gameManager: {fileID: 0}
+  _UIAndScenceController: {fileID: 0}
   _canvas: {fileID: 1025294202857444635}
+  _speedForRotation: 1.5
+  _speedForMovement: 1.2
+  _heath: 100
 --- !u!54 &8799200344548286154
 Rigidbody:
   m_ObjectHideFlags: 0
