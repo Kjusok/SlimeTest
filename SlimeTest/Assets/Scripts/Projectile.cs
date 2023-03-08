@@ -4,33 +4,34 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private int _speed;
 
-    private Transform _targetPosition;
+    private Transform _target;
     private Vector3 _currentPosition;
     private Vector3 _origin;
     private float _distanceTravelled;
     private float _arcFactor = 0.8f;
 
-    public int Damage;
+    private int _damage;
 
 
     private void OnEnable()
     {
-        _origin = _currentPosition = transform.position;
+        _origin = transform.position;
+        _currentPosition = transform.position;
     }
 
     private void Update()
     {
-        if (!_targetPosition)
+        if (!_target)
         {
             Destroy(gameObject);
             return;
         }
 
-        Vector3 direction = _targetPosition.position - _currentPosition;
+        Vector3 direction = _target.position - _currentPosition;
         _currentPosition += direction.normalized * _speed * Time.deltaTime;
         _distanceTravelled += _speed * Time.deltaTime;
 
-        float totalDistance = Vector3.Distance(_origin, _targetPosition.position);
+        float totalDistance = Vector3.Distance(_origin, _target.position);
         float heightOffset = _arcFactor * totalDistance * Mathf.Sin(_distanceTravelled * Mathf.PI / totalDistance);
         transform.position = _currentPosition + new Vector3(0, 0, heightOffset);
     }
@@ -41,14 +42,15 @@ public class Projectile : MonoBehaviour
 
         if (enemy)
         {
-            enemy.TakeDamage(Damage);
+            enemy.TakeDamage(_damage);
 
             Destroy(gameObject);
         }
     }
 
-    public void GetTarget(Transform target)
+    public void Initialize(Transform target, int damage)
     {
-        _targetPosition = target;
+        _target = target;
+        _damage = damage;
     }
 }

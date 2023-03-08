@@ -13,16 +13,22 @@ public class UIAndGameController : MonoBehaviour
     [SerializeField] private GameObject _panelYouDied;
     [SerializeField] private GameObject _restartButton;
     [SerializeField] private GameObject _panelYouWin;
+    [SerializeField] private Button _upDamageButton;
+    [SerializeField] private Button _upHealthButton;
+    [SerializeField] private Button _upSpeedAttackButton;
+    [SerializeField] private Button _recoveryHealthButton;
 
     private int _wallet;
     private bool _isPaused;
 
     public bool GameIsPaused => _isPaused;
-    public bool GameIsStarted
-    {
-        get; private set;
-    }
+    public bool GameIsStarted { get; private set; }
 
+
+    private void Update()
+    {
+        CheckAvailableButtons();
+    }
 
     private void RemoveFromScore(int coins)
     {
@@ -30,6 +36,31 @@ public class UIAndGameController : MonoBehaviour
         string scoreTextWithZero = string.Format("{0:D6}", _wallet);
 
         _walletText.text = scoreTextWithZero;
+    }
+
+    private void CheckAvailableButtons()
+    {
+        if (_wallet >= PriceForCharacteristics)
+        {
+            _upDamageButton.interactable = true;
+            _upHealthButton.interactable = true;
+            _upSpeedAttackButton.interactable = true;
+        }
+        else
+        {
+            _upDamageButton.interactable = false;
+            _upHealthButton.interactable = false;
+            _upSpeedAttackButton.interactable = false;
+        }
+
+        if (_wallet >= PriceForRecoverHP)
+        {
+            _recoveryHealthButton.interactable = true;
+        }
+        else
+        {
+            _recoveryHealthButton.interactable = false;
+        }
     }
 
     public void AwakePanelYouDied()
@@ -61,7 +92,7 @@ public class UIAndGameController : MonoBehaviour
 
     public void UpDamageButton()
     {
-        if(_wallet >= PriceForCharacteristics)
+        if (_wallet >= PriceForCharacteristics)
         {
             _player.UpDamage();
             RemoveFromScore(PriceForCharacteristics);
@@ -90,7 +121,7 @@ public class UIAndGameController : MonoBehaviour
     {
         if (_wallet >= PriceForRecoverHP)
         {
-            _player.RecoveryHP();
+            _player.HealthRecovery();
             RemoveFromScore(PriceForRecoverHP);
         }
     }

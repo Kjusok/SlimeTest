@@ -3,26 +3,20 @@ using UnityEngine.UI;
 
 public class PopUpText : MonoBehaviour
 {
-    private const float TimeForDeath = 0.3f;
-
+    [SerializeField] private float _timeForDeath = 0.3f;
+    [SerializeField] private float _speed = 1;
     [SerializeField] private Text _text;
-    [SerializeField] private float _speed;
 
-    private float _timerForDeath;
+    private float _timer;
 
-
-    private void Start()
-    {
-        _timerForDeath = TimeForDeath;
-    }
 
     private void Update()
     {
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
-        if (_timerForDeath > 0)
+        if (_timer > 0)
         {
-            _timerForDeath -= Time.deltaTime;
+            _timer -= Time.deltaTime;
         }
         else
         {
@@ -32,6 +26,7 @@ public class PopUpText : MonoBehaviour
 
     public void Initialize(string text)
     {
+        _timer = _timeForDeath;
         _text.text = text;
     }
 }

@@ -1,27 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemiesController : MonoBehaviour
 {
     [SerializeField] private Player _player;
     [SerializeField] private List<Enemy> _enemies;
-    [SerializeField] private UIAndGameController _UIAndGameController;
+    [SerializeField] private UIAndGameController _uiAndGameController;
 
     private int _counter;
+    private int _lastEnemyNumber = 8;
 
     public IEnumerable<Enemy> Enemies => _enemies;
 
 
     private void Update()
     {
-        if (_UIAndGameController.GameIsPaused)
+        if (_uiAndGameController.GameIsPaused)
         {
             return;
         }
 
-        if (_enemies[8] == null)
+        if (_enemies[_lastEnemyNumber].IsDead)
         {
-            _UIAndGameController.AwakeFinishPanel();
+            _uiAndGameController.AwakeFinishPanel();
         }
     }
 
@@ -35,13 +36,13 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void RotationAndMovementToTarget(int maxI)
+    public void ActivateEnemies(int maxEnemies)
     {
-        for (int i = 0; i < maxI; i++)
+        for (int i = 0; i < maxEnemies; i++)
         {
             if (_enemies[i] != null)
             {
-                _enemies[i].ActivateEnemy();
+                _enemies[i].Activate();
             }
         }
     }

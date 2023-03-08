@@ -99,11 +99,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 0}
+  _enemyController: {fileID: 0}
+  _UIAndGameController: {fileID: 0}
+  _currentEnemy: {fileID: 0}
+  _projectilePrefab: {fileID: 0}
+  _heathBar: {fileID: 0}
+  _prefabPopUpTextDamage: {fileID: 0}
+  _prefabPopUPTextHealtUp: {fileID: 0}
+  _canvas: {fileID: 0}
+  _currentDamageText: {fileID: 0}
+  _currentAttackSpeedText: {fileID: 0}
+  _currentHealthUpText: {fileID: 0}
+  _health: 0
   _speedForRotation: 1.5
   _speed: 3
-  _enemyController: {fileID: 0}
-  _currentEnemy: {fileID: 0}
-  _bulletPrefab: {fileID: 1490211847285757647, guid: beaf08662090b6a478d27de2b7c13d75, type: 3}
 --- !u!54 &4490819163641990959
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -118,7 +127,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &4490819163641990957
 CapsuleCollider:

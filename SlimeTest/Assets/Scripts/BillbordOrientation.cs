@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NormplizeForvardLook : MonoBehaviour
+public class BillbordOrientation : MonoBehaviour
 {
     private Camera _mainCamera;
 

@@ -5,23 +5,22 @@ public class Player : MonoBehaviour
 {
     private const float TimeForMovement = 2.5f;
     private const float TimeWhenNeedToSlowDown = 0.7f;
-    private const float MaxIndexForMove = 0.9f;
-    private const float MinIndexForMove = -0.8f;
+    private const float MovementOffsetRight = 0.9f;
+    private const float MovementOffsetLeft = -0.8f;
     private const float InitialValueForTimerShot = 0.5f;
-    private const float CoefForPosX = 0.2f;
-    private const float CoefForPosY = 0.5f;
     private const float MinValueForSpeedAttack = 0.1f;
     private const float AttackSpeedStep = 0.015f;
     private const int ValueForMaxIndex = 2;
     private const int MaxValueForMaxIndex = 9;
-    private const int InitialValueOfDamage = 10;
-    private const int InitialValueOfHealth = 100;
-    private const int ValueForRecoverHP = 5;
+    private const int StartDamage = 10;
+    private const int StartHealth = 100;
+    private const int RecoveryHealthValue = 5;
     private const int ValueForHealthUp = 10;
-    private const int LeadToHundredths = 100;
+
+    private readonly Vector3 _textOffset = new Vector3(0.2f, 0.5f);
 
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private EnemyController _enemyController;
+    [SerializeField] private EnemiesController _enemiesController;
     [SerializeField] private UIAndGameController _UIAndGameController;
     [SerializeField] private Enemy _currentEnemy;
     [SerializeField] private Projectile _projectilePrefab;
@@ -36,28 +35,24 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speedForRotation;
     [SerializeField] private float _speed;
 
-    private float _movementIndex;
+    private float _movementOffset;
     private float _timerForForward;
     private bool _isAttacked;
     private float _timerForNextHit;
     private float _maxHealth;
     private float _timeForNextShot;
-    private int _counterTrigger;
+    private int _counterWaves;
     private int _maxIndexForEnemiesTrigger;
     private int _damage;
 
 
     private void Start()
     {
-        _damage = InitialValueOfDamage;
-        _maxHealth = InitialValueOfHealth;
+        _damage = StartDamage;
+        _maxHealth = StartHealth;
         _health = _maxHealth;
         _maxIndexForEnemiesTrigger = 0;
         _timeForNextShot = InitialValueForTimerShot;
-
-        _rigidbody.constraints = RigidbodyConstraints.FreezeRotationX |
-            RigidbodyConstraints.FreezeRotationZ |
-            RigidbodyConstraints.FreezeRotationY;
     }
 
     private void Update()
@@ -67,17 +62,22 @@ public class Player : MonoBehaviour
             return;
         }
 
+        if(!_UIAndGameController.GameIsStarted)
+        {
+            return;
+        }
+
         if (FindClosestEnemy())
         {
             RotationToClosestEnemy();
         }
 
-        if (_movementIndex == 0 && _UIAndGameController.GameIsStarted && _counterTrigger > 0)
+        if (_movementOffset == 0 && _counterWaves > 0)
         {
             StartAttack();
         }
 
-        ChechTimeForNextAttack();
+        CheckTimeForNextAttack();
     }
 
     private void FixedUpdate()
@@ -87,11 +87,11 @@ public class Player : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        var trigger = other.GetComponent<Trigger>();
+        var trigger = other.GetComponent<TriggerToActivateEnemies>();
 
         if (trigger)
         {
-            _counterTrigger++;
+            _counterWaves++;
             _maxIndexForEnemiesTrigger += ValueForMaxIndex;
 
             if (_maxIndexForEnemiesTrigger > MaxValueForMaxIndex)
@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
                 _maxIndexForEnemiesTrigger = MaxValueForMaxIndex;
             }
 
-            _enemyController.RotationAndMovementToTarget(_maxIndexForEnemiesTrigger);
+            _enemiesController.ActivateEnemies(_maxIndexForEnemiesTrigger);
         }
     }
 
@@ -108,25 +108,27 @@ public class Player : MonoBehaviour
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
 
-        foreach (Enemy enemy in _enemyController.Enemies)
+        foreach (Enemy enemy in _enemiesController.Enemies)
         {
-            if (!enemy.IsDead)
+            if (enemy.IsDead)
             {
-                Vector3 diff = enemy.transform.position - position;
-                float curDistance = diff.sqrMagnitude;
+                continue;
+            }
 
-                if (curDistance < distance)
-                {
-                    _currentEnemy = enemy;
-                    distance = curDistance;
-                }
+            Vector3 diff = enemy.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+
+            if (curDistance < distance)
+            {
+                _currentEnemy = enemy;
+                distance = curDistance;
             }
         }
 
         return _currentEnemy;
     }
 
-    private void ChechTimeForNextAttack()
+    private void CheckTimeForNextAttack()
     {
         if (_timerForNextHit >= 0)
         {
@@ -140,7 +142,7 @@ public class Player : MonoBehaviour
 
     private void MovementController()
     {
-        _rigidbody.AddForce(new Vector3(_movementIndex, 0.0f, 0.0f) * _speed, ForceMode.Impulse);
+        _rigidbody.AddForce(new Vector3(_movementOffset, 0.0f, 0.0f) * _speed, ForceMode.Impulse);
 
         if (_timerForForward > 0)
         {
@@ -148,36 +150,35 @@ public class Player : MonoBehaviour
 
             if (_timerForForward > TimeWhenNeedToSlowDown)
             {
-                _movementIndex = MaxIndexForMove;
+                _movementOffset = MovementOffsetRight;
             }
             else
             {
-                _movementIndex = MinIndexForMove;
+                _movementOffset = MovementOffsetLeft;
             }
         }
         else
         {
-            _movementIndex = 0;
+            _movementOffset = 0;
         }
     }
 
     private void SpawnProjectile()
     {
         var projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
-        projectile.GetComponent<Projectile>().Damage = _damage;
-        projectile.GetTarget(_currentEnemy.transform);
+        projectile.Initialize(_currentEnemy.transform, _damage);
     }
 
-    private void InstantiatePopUpText(float value, string symbol, PopUpText prefab)
+    private void ShowChangeHealth(float value, PopUpText prefab)
     {
         var text = Instantiate(prefab,
-            new Vector3(transform.position.x + (Random.Range(-CoefForPosX, CoefForPosX)),
-            transform.position.y + CoefForPosY,
+            new Vector3(transform.position.x + (Random.Range(-_textOffset.x, _textOffset.x)),
+            transform.position.y + _textOffset.y,
             transform.position.z),
             transform.rotation);
 
         text.transform.SetParent(_canvas.transform, true);
-        text.Initialize(symbol + value.ToString());
+        text.Initialize(value.ToString());
     }
 
     private void StartAttack()
@@ -191,9 +192,46 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void RotationToClosestEnemy()
+    {
+        Vector3 direction = _currentEnemy.transform.position - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _speedForRotation * Time.deltaTime);
+    }
+
     public void StartMovement()
     {
         _timerForForward = TimeForMovement;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        _health -= damage;
+        _heathBar.fillAmount = _health / _maxHealth;
+
+        ShowChangeHealth(-damage, _prefabPopUpTextDamage);
+
+        if(_health <= 0)
+        {
+            _UIAndGameController.AwakePanelYouDied();
+        }
+    }
+
+    public void HealthRecovery()
+    {
+        if (_health < _maxHealth)
+        {
+            _health += RecoveryHealthValue;
+            _heathBar.fillAmount = _health / _maxHealth;
+
+            ShowChangeHealth(RecoveryHealthValue, _prefabPopUPTextHealtUp);
+        }
+    }
+
+    public void UpHealth()
+    {
+        _maxHealth += ValueForHealthUp;
+        _currentHealthUpText.text = _maxHealth.ToString();
     }
 
     public void UpDamage()
@@ -209,42 +247,5 @@ public class Player : MonoBehaviour
             _timeForNextShot -= AttackSpeedStep;
             _currentAttackSpeedText.text = _timeForNextShot.ToString("0.00");
         }
-    }
-
-    public void RotationToClosestEnemy()
-    {
-        Vector3 direction = _currentEnemy.transform.position - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _speedForRotation * Time.deltaTime);
-    }
-
-    public void TakeDamage(float damage)
-    {
-        _health -= damage;
-        _heathBar.fillAmount = _health / LeadToHundredths;
-
-        InstantiatePopUpText(damage, "-", _prefabPopUpTextDamage);
-
-        if(_health <= 0)
-        {
-            _UIAndGameController.AwakePanelYouDied();
-        }
-    }
-
-    public void RecoveryHP()
-    {
-        if (_health < _maxHealth)
-        {
-            _health += ValueForRecoverHP;
-            _heathBar.fillAmount = _health / LeadToHundredths;
-
-            InstantiatePopUpText(ValueForRecoverHP, "+", _prefabPopUPTextHealtUp);
-        }
-    }
-
-    public void UpHealth()
-    {
-        _maxHealth += ValueForHealthUp;
-        _currentHealthUpText.text = _maxHealth.ToString();
     }
 }
