@@ -4,12 +4,11 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     private const float TimeForMovement = 2.5f;
+   // private const float TimeForSpawnFlashEffects = 1.5f;
     private const float TimeWhenNeedToSlowDown = 0.7f;
     private const float MovementOffsetRight = 0.9f;
     private const float MovementOffsetLeft = -0.8f;
-    private const float InitialValueForTimerShot = 0.5f;
-    private const float MinValueForSpeedAttack = 0.1f;
-    private const float AttackSpeedStep = 0.015f;
+    private const float AttackSpeedStep = 0.1f;
     private const int ValueForMaxIndex = 2;
     private const int MaxValueForMaxIndex = 9;
     private const int StartDamage = 10;
@@ -19,6 +18,7 @@ public class Player : MonoBehaviour
 
     private readonly Vector3 _textOffset = new Vector3(0.2f, 0.5f);
 
+    [SerializeField] private PlayerAnimations _playerAnimations;
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private EnemiesController _enemiesController;
     [SerializeField] private UIAndGameController _UIAndGameController;
@@ -31,16 +31,19 @@ public class Player : MonoBehaviour
     [SerializeField] private Text _currentDamageText;
     [SerializeField] private Text _currentAttackSpeedText;
     [SerializeField] private Text _currentHealthUpText;
+    [SerializeField] private GameObject _flashSpeedEffectPrefab;
+    [SerializeField] private GameObject _dustEffectPrefab;
+    [SerializeField] private GameObject _windEffectPrefab;
     [SerializeField] private float _health;
     [SerializeField] private float _speedForRotation;
     [SerializeField] private float _speed;
 
     private float _movementOffset;
     private float _timerForForward;
-    private bool _isAttacked;
-    private float _timerForNextHit;
+    private float _timerSpawnEffetsFlash;
+    private float _timerDustEffetsFlash;
     private float _maxHealth;
-    private float _timeForNextShot;
+    private float _startSpeedAttack = 2;
     private int _counterWaves;
     private int _maxIndexForEnemiesTrigger;
     private int _damage;
@@ -52,7 +55,6 @@ public class Player : MonoBehaviour
         _maxHealth = StartHealth;
         _health = _maxHealth;
         _maxIndexForEnemiesTrigger = 0;
-        _timeForNextShot = InitialValueForTimerShot;
     }
 
     private void Update()
@@ -62,22 +64,19 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if(!_UIAndGameController.GameIsStarted)
+        if (!_UIAndGameController.GameIsStarted)
         {
             return;
         }
 
-        if (FindClosestEnemy())
-        {
-            RotationToClosestEnemy();
-        }
+        FindClosestEnemy();
+        CheckSpawnEffectsTimer();
+        CheckDustEffectsTimer();
 
         if (_movementOffset == 0 && _counterWaves > 0)
         {
             StartAttack();
         }
-
-        CheckTimeForNextAttack();
     }
 
     private void FixedUpdate()
@@ -128,18 +127,6 @@ public class Player : MonoBehaviour
         return _currentEnemy;
     }
 
-    private void CheckTimeForNextAttack()
-    {
-        if (_timerForNextHit >= 0)
-        {
-            _timerForNextHit -= Time.deltaTime;
-        }
-        else
-        {
-            _isAttacked = false;
-        }
-    }
-
     private void MovementController()
     {
         _rigidbody.AddForce(new Vector3(_movementOffset, 0.0f, 0.0f) * _speed, ForceMode.Impulse);
@@ -156,17 +143,43 @@ public class Player : MonoBehaviour
             {
                 _movementOffset = MovementOffsetLeft;
             }
+
+            _playerAnimations.PlayRun(true);
         }
         else
         {
             _movementOffset = 0;
+            _playerAnimations.PlayRun(false);
         }
     }
 
-    private void SpawnProjectile()
+    private void CheckSpawnEffectsTimer()
     {
-        var projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
-        projectile.Initialize(_currentEnemy.transform, _damage);
+        if (_timerSpawnEffetsFlash > 0)
+        {
+            _timerSpawnEffetsFlash -= Time.deltaTime;
+        }
+        if (_timerSpawnEffetsFlash < 0)
+        {
+            _timerSpawnEffetsFlash = 0;
+
+            SpawFlashEffects();
+            SpawWindEffects();
+        }
+    }
+
+    private void CheckDustEffectsTimer()
+    {
+        if (_timerDustEffetsFlash > 0)
+        {
+            _timerDustEffetsFlash -= Time.deltaTime;
+        }
+        if (_timerDustEffetsFlash < 0)
+        {
+            _timerDustEffetsFlash = 0;
+
+            SpawDustEffects();
+        }
     }
 
     private void ShowChangeHealth(float value, PopUpText prefab)
@@ -183,25 +196,43 @@ public class Player : MonoBehaviour
 
     private void StartAttack()
     {
-        if (!_isAttacked)
-        {
-            _isAttacked = true;
-            _timerForNextHit = _timeForNextShot;
-
-            SpawnProjectile();
-        }
+        _playerAnimations.Attack();
     }
 
-    private void RotationToClosestEnemy()
+    private void SpawFlashEffects()
     {
-        Vector3 direction = _currentEnemy.transform.position - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _speedForRotation * Time.deltaTime);
+        var flash = Instantiate(_flashSpeedEffectPrefab, new Vector3(transform.position.x - 0.6f, transform.position.y,
+              transform.position.z), Quaternion.identity);
+        flash.transform.SetParent(_canvas.transform, true);
+    }
+
+    private void SpawDustEffects()
+    {
+        var dust = Instantiate(_dustEffectPrefab, new Vector3(transform.position.x - 0.58f, transform.position.y + 0.14f,
+              transform.position.z), Quaternion.identity);
+        dust.transform.SetParent(_canvas.transform, true);
+    }
+
+    private void SpawWindEffects()
+    {
+        var dust = Instantiate(_windEffectPrefab, new Vector3 (0,0,-1), Quaternion.identity);
+        dust.transform.SetParent(_canvas.transform, false);
+    }
+
+    public void SpawnProjectile()
+    {
+        if (_currentEnemy != null)
+        {
+            var projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
+            projectile.Initialize(_currentEnemy.transform, _damage);
+        }
     }
 
     public void StartMovement()
     {
         _timerForForward = TimeForMovement;
+        _timerSpawnEffetsFlash = 0.3f;
+        _timerDustEffetsFlash = 1f;
     }
 
     public void TakeDamage(float damage)
@@ -209,11 +240,13 @@ public class Player : MonoBehaviour
         _health -= damage;
         _heathBar.fillAmount = _health / _maxHealth;
 
+        _playerAnimations.Hurt();
         ShowChangeHealth(-damage, _prefabPopUpTextDamage);
 
         if(_health <= 0)
         {
             _UIAndGameController.AwakePanelYouDied();
+            _playerAnimations.Death();
         }
     }
 
@@ -242,10 +275,9 @@ public class Player : MonoBehaviour
 
     public void UpSpeedAttack()
     {
-        if (_timeForNextShot > MinValueForSpeedAttack)
-        {
-            _timeForNextShot -= AttackSpeedStep;
-            _currentAttackSpeedText.text = _timeForNextShot.ToString("0.00");
-        }
+        _startSpeedAttack += AttackSpeedStep;
+
+        _playerAnimations.CreateSpeedAttack(_startSpeedAttack);
+        _currentAttackSpeedText.text = _startSpeedAttack.ToString("0.00");
     }
 }
