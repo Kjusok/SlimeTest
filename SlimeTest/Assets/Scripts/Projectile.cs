@@ -3,6 +3,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private int _speed;
+    [SerializeField] private GameObject _explodionPrefab;
 
     private Transform _target;
     private Vector3 _currentPosition;
@@ -45,6 +46,7 @@ public class Projectile : MonoBehaviour
             enemy.TakeDamage(_damage);
 
             Destroy(gameObject);
+            Instantiate(_explodionPrefab, transform.position, Quaternion.identity);
         }
     }
 

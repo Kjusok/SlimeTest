@@ -163,7 +163,7 @@ public class Player : MonoBehaviour
         {
             _timerSpawnEffetsFlash = 0;
 
-            SpawFlashEffects();
+            //SpawFlashEffects();
             SpawWindEffects();
         }
     }

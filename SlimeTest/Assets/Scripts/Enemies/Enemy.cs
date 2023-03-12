@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemiesController _enemiesController;
     [SerializeField] private UIAndGameController _uiAndGameController;
     [SerializeField] private Canvas _canvas;
+    [SerializeField] private EnemiesAnimations _enemiesAnimations;
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _movementSpeed;
     [SerializeField] private int _maxHealth = 100;
@@ -60,6 +61,7 @@ public class Enemy : MonoBehaviour
         {
             _player = player;
             _isAttack = true;
+            _enemiesAnimations.Attack(true);
         }
     }
 
@@ -71,6 +73,7 @@ public class Enemy : MonoBehaviour
         {
             _player = null;
             _isAttack = false;
+            _enemiesAnimations.Attack(false);
         }
     }
 
@@ -104,9 +107,11 @@ public class Enemy : MonoBehaviour
     {
         if (_isAttack)
         {
+            _enemiesAnimations.Walk(false);
             return;
         }
 
+        _enemiesAnimations.Walk(true);
         transform.Translate(Vector3.forward * _movementSpeed * Time.deltaTime);
     }
 
@@ -119,11 +124,14 @@ public class Enemy : MonoBehaviour
         text.Initialize($"{ damage}");
     }
 
+
     public void TakeDamage(int damage)
     {
         _heath -= damage;
 
         ShowDamage(damage);
+        _enemiesAnimations.Hurt();
+
         _heathBar.fillAmount = _heath / _maxHealth;
 
         if (_heath <= 0)
