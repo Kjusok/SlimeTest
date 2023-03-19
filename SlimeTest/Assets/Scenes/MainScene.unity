@@ -876,7 +876,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 770243075}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: UpSpeedAtackButton
+        m_MethodName: UpSpeedAttackButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17670,7 +17670,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 15
 --- !u!222 &499618040
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -75154,6 +75154,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 463514881}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _uiAndGameController
+      value: 
+      objectReference: {fileID: 770243075}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _currentAtackSpeedText
       value: 
       objectReference: {fileID: 1536289843}
@@ -75171,6 +75175,10 @@ PrefabInstance:
       objectReference: {fileID: 6778859565838368351, guid: fe4e8178ffc6b304b99d35cc4105141c, type: 3}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _prefabPopUPTextHealtUp
+      value: 
+      objectReference: {fileID: 1409627251805502973, guid: 9c4584da97afdd44ab0a7b07f631dc44, type: 3}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _prefabPopUpTextHealtUp
       value: 
       objectReference: {fileID: 1409627251805502973, guid: 9c4584da97afdd44ab0a7b07f631dc44, type: 3}
     - target: {fileID: 4490819163641990962, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}

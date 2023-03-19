@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// 1) Движение текст вверх
+/// 2) Уничтожение объекта
+/// </summary>
 public class PopUpText : MonoBehaviour
 {
     [SerializeField] private float _timeForDeath = 0.3f;

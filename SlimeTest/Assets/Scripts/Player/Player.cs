@@ -1,32 +1,49 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 1) Косаться трригера
+/// 2) Находить близжайшего врага
+/// 3) Перемещаться
+/// 4) Спавниь эффект пыли из под ног
+/// 5) Спавнить эффект быстрого перемещения (Полосы на экране)
+/// 6) Показывать спылвающий текст над собой
+/// 7) Атаковать (Включать анимацию атаки и создавать снаряд)
+/// 8) Получать урон
+/// 9) Востанавливать здоровье (Лечиться)
+/// 10) Увеличивать запас жизней
+/// 11) Увеличивать урон
+/// 12) увеличивать скорость атаки
+/// </summary>
+
 public class Player : MonoBehaviour
 {
-    private const float TimeForMovement = 2.5f;
-   // private const float TimeForSpawnFlashEffects = 1.5f;
+    private const float MovementTime = 2.5f;
+    private const float SpawnFlashEffectTime = 0.3f;
+    private const float SpawnDustEffectTime = 1f;
     private const float TimeWhenNeedToSlowDown = 0.7f;
     private const float MovementOffsetRight = 0.9f;
     private const float MovementOffsetLeft = -0.8f;
     private const float AttackSpeedStep = 0.1f;
     private const int ValueForMaxIndex = 2;
     private const int MaxValueForMaxIndex = 9;
-    private const int StartDamage = 10;
+    private const int StartDamage = 15;
     private const int StartHealth = 100;
     private const int RecoveryHealthValue = 5;
     private const int ValueForHealthUp = 10;
 
     private readonly Vector3 _textOffset = new Vector3(0.2f, 0.5f);
+    private readonly Vector3 _positionOffset = new Vector3(0.2f, 1f);
 
     [SerializeField] private PlayerAnimations _playerAnimations;
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private EnemiesController _enemiesController;
-    [SerializeField] private UIAndGameController _UIAndGameController;
+    [SerializeField] private UIAndGameController _uiAndGameController;
     [SerializeField] private Enemy _currentEnemy;
     [SerializeField] private Projectile _projectilePrefab;
     [SerializeField] private Image _heathBar;
     [SerializeField] private PopUpText _prefabPopUpTextDamage;
-    [SerializeField] private PopUpText _prefabPopUPTextHealtUp;
+    [SerializeField] private PopUpText _prefabPopUpTextHealtUp;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private Text _currentDamageText;
     [SerializeField] private Text _currentAttackSpeedText;
@@ -35,13 +52,12 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _dustEffectPrefab;
     [SerializeField] private GameObject _windEffectPrefab;
     [SerializeField] private float _health;
-    [SerializeField] private float _speedForRotation;
     [SerializeField] private float _speed;
 
     private float _movementOffset;
     private float _timerForForward;
-    private float _timerSpawnEffetsFlash;
-    private float _timerDustEffetsFlash;
+    private float _timerSpawnEffectFlash;
+    private float _timerDustEffectFlash;
     private float _maxHealth;
     private float _startSpeedAttack = 2;
     private int _counterWaves;
@@ -49,22 +65,22 @@ public class Player : MonoBehaviour
     private int _damage;
 
 
-    private void Start()
+    private void Awake()
     {
         _damage = StartDamage;
         _maxHealth = StartHealth;
         _health = _maxHealth;
         _maxIndexForEnemiesTrigger = 0;
     }
-
+    
     private void Update()
     {
-        if (_UIAndGameController.GameIsPaused)
+        if (_uiAndGameController.GameIsPaused)
         {
             return;
         }
 
-        if (!_UIAndGameController.GameIsStarted)
+        if (!_uiAndGameController.GameIsStarted)
         {
             return;
         }
@@ -77,8 +93,9 @@ public class Player : MonoBehaviour
         {
             StartAttack();
         }
-    }
 
+    }
+    
     private void FixedUpdate()
     {
         MovementController();
@@ -104,7 +121,7 @@ public class Player : MonoBehaviour
 
     private Enemy FindClosestEnemy()
     {
-        float distance = Mathf.Infinity;
+        var distance = Mathf.Infinity;
         Vector3 position = transform.position;
 
         foreach (Enemy enemy in _enemiesController.Enemies)
@@ -155,28 +172,29 @@ public class Player : MonoBehaviour
 
     private void CheckSpawnEffectsTimer()
     {
-        if (_timerSpawnEffetsFlash > 0)
+        if (_timerSpawnEffectFlash > 0)
         {
-            _timerSpawnEffetsFlash -= Time.deltaTime;
+            _timerSpawnEffectFlash -= Time.deltaTime;
         }
-        if (_timerSpawnEffetsFlash < 0)
+        
+        if (_timerSpawnEffectFlash < 0)
         {
-            _timerSpawnEffetsFlash = 0;
+            _timerSpawnEffectFlash = 0;
 
-            //SpawFlashEffects();
             SpawWindEffects();
         }
     }
 
     private void CheckDustEffectsTimer()
     {
-        if (_timerDustEffetsFlash > 0)
+        if (_timerDustEffectFlash > 0)
         {
-            _timerDustEffetsFlash -= Time.deltaTime;
+            _timerDustEffectFlash -= Time.deltaTime;
         }
-        if (_timerDustEffetsFlash < 0)
+        
+        if (_timerDustEffectFlash < 0)
         {
-            _timerDustEffetsFlash = 0;
+            _timerDustEffectFlash = 0;
 
             SpawDustEffects();
         }
@@ -199,13 +217,6 @@ public class Player : MonoBehaviour
         _playerAnimations.Attack();
     }
 
-    private void SpawFlashEffects()
-    {
-        var flash = Instantiate(_flashSpeedEffectPrefab, new Vector3(transform.position.x - 0.6f, transform.position.y,
-              transform.position.z), Quaternion.identity);
-        flash.transform.SetParent(_canvas.transform, true);
-    }
-
     private void SpawDustEffects()
     {
         var dust = Instantiate(_dustEffectPrefab, new Vector3(transform.position.x - 0.58f, transform.position.y + 0.14f,
@@ -215,7 +226,7 @@ public class Player : MonoBehaviour
 
     private void SpawWindEffects()
     {
-        var dust = Instantiate(_windEffectPrefab, new Vector3 (0,0,-1), Quaternion.identity);
+        var dust = Instantiate(_windEffectPrefab, new Vector3 (0,0,-_positionOffset.y), Quaternion.identity);
         dust.transform.SetParent(_canvas.transform, false);
     }
 
@@ -230,9 +241,9 @@ public class Player : MonoBehaviour
 
     public void StartMovement()
     {
-        _timerForForward = TimeForMovement;
-        _timerSpawnEffetsFlash = 0.3f;
-        _timerDustEffetsFlash = 1f;
+        _timerForForward = MovementTime;
+        _timerSpawnEffectFlash = SpawnFlashEffectTime;
+        _timerDustEffectFlash = SpawnDustEffectTime;
     }
 
     public void TakeDamage(float damage)
@@ -245,7 +256,7 @@ public class Player : MonoBehaviour
 
         if(_health <= 0)
         {
-            _UIAndGameController.AwakePanelYouDied();
+            _uiAndGameController.AwakePanelYouDied();
             _playerAnimations.Death();
         }
     }
@@ -257,7 +268,7 @@ public class Player : MonoBehaviour
             _health += RecoveryHealthValue;
             _heathBar.fillAmount = _health / _maxHealth;
 
-            ShowChangeHealth(RecoveryHealthValue, _prefabPopUPTextHealtUp);
+            ShowChangeHealth(RecoveryHealthValue, _prefabPopUpTextHealtUp);
         }
     }
 

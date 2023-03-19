@@ -1,12 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// 1) Соприкосновение с играком
+/// 2) Способность атаковать
+/// 3) Перемещаться к цели (движение и вращение)
+/// 4) Показывать урон
+/// 5) Получать урон
+/// 6) Активироваться 
+/// </summary>
 public class Enemy : MonoBehaviour
 {
     private const int BaseScore = 100;
     private const float NexHitDelay = 1;
-
-    private readonly Vector3 _textOffset = new Vector3(0.2f, 0.5f);
 
     [SerializeField] private Player _target;
     [SerializeField] private PopUpText _prefabPopUpTextDamage;
@@ -15,15 +20,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] private UIAndGameController _uiAndGameController;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private EnemiesAnimations _enemiesAnimations;
-    [SerializeField] private float _rotationSpeed;
+    [SerializeField] private float _rotationSpeed = 1;
     [SerializeField] private float _movementSpeed;
-    [SerializeField] private int _maxHealth = 100;
+    [SerializeField] private float _maxHealth = 100;
+    [SerializeField] private float _damage = 5;
 
-    private Player _player;
+    private readonly Vector3 _textOffset = new Vector3(0.2f, 0.5f);
+
     private bool _isAttack;
     private bool _isActive;
     private float _timerToNextHit;
-    private float _damage = 5;
     private float _heath;
     private int _score;
 
@@ -59,7 +65,6 @@ public class Enemy : MonoBehaviour
 
         if (player)
         {
-            _player = player;
             _isAttack = true;
             _enemiesAnimations.Attack(true);
         }
@@ -71,7 +76,6 @@ public class Enemy : MonoBehaviour
 
         if (player)
         {
-            _player = null;
             _isAttack = false;
             _enemiesAnimations.Attack(false);
         }
@@ -84,7 +88,7 @@ public class Enemy : MonoBehaviour
             _timerToNextHit -= Time.deltaTime;
         }
 
-        if (_isAttack && _timerToNextHit <= 0)
+        if (_isAttack && _timerToNextHit < 0)
         {
             _target.TakeDamage(_damage);
             _timerToNextHit = NexHitDelay;
@@ -123,7 +127,6 @@ public class Enemy : MonoBehaviour
         text.transform.SetParent(_canvas.transform, true);
         text.Initialize($"{ damage}");
     }
-
 
     public void TakeDamage(int damage)
     {

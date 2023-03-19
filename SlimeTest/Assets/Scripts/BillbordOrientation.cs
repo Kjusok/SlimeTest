@@ -1,5 +1,7 @@
 using UnityEngine;
-
+/// <summary>
+/// поворачивать любой объект к камере передней стороной
+/// </summary>
 public class BillbordOrientation : MonoBehaviour
 {
     private Camera _mainCamera;

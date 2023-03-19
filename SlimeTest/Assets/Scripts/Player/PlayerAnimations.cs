@@ -10,6 +10,7 @@ public class PlayerAnimations : MonoBehaviour
     private readonly int _deathStateName = Animator.StringToHash("Death");
     private readonly int _attackSpeedStateName = Animator.StringToHash("AttackSpeed");
 
+    
     public void CreateSpeedAttack(float speed)
     {
         _animator.SetFloat(_attackSpeedStateName, speed);

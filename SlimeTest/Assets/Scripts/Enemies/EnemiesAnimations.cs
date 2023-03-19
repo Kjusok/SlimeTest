@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Воспроизведение анимаций
+/// </summary>
 public class EnemiesAnimations : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
@@ -9,6 +10,7 @@ public class EnemiesAnimations : MonoBehaviour
     private readonly int _walkStateName = Animator.StringToHash("Walk");
     private readonly int _hurtStateName = Animator.StringToHash("Hurt");
     private readonly int _attackStateName = Animator.StringToHash("Attack");
+
 
     public void Walk(bool flag)
     {

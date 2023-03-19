@@ -1,11 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// 1) Активация кнопок в игре
+/// 2) Добовлять и убирать очки (монетки) из кошелька
+/// 3) Перезагружать сцену
+/// 4) Активировать различные панели (победа, проигрышь, старт игры)
+/// 5) увеличивать различные характериски игрока после нажатия кнопки (повышение жизни, пополнение здоровья, увилечение урона, увелечение скорости атаки)
+/// </summary>
 public class UIAndGameController : MonoBehaviour
 {
     private const int PriceForCharacteristics = 25;
-    private const int PriceForRecoverHP = 10;
+    private const int PriceForRecoverHealth = 10;
 
     [SerializeField] private Player _player;
     [SerializeField] private Text _walletText;
@@ -53,7 +59,7 @@ public class UIAndGameController : MonoBehaviour
             _upSpeedAttackButton.interactable = false;
         }
 
-        if (_wallet >= PriceForRecoverHP)
+        if (_wallet >= PriceForRecoverHealth)
         {
             _recoveryHealthButton.interactable = true;
         }
@@ -99,7 +105,7 @@ public class UIAndGameController : MonoBehaviour
         }
     }
 
-    public void UpSpeedAtackButton()
+    public void UpSpeedAttackButton()
     {
         if (_wallet >= PriceForCharacteristics)
         {
@@ -119,10 +125,10 @@ public class UIAndGameController : MonoBehaviour
 
     public void RecoveryHealthButton()
     {
-        if (_wallet >= PriceForRecoverHP)
+        if (_wallet >= PriceForRecoverHealth)
         {
             _player.HealthRecovery();
-            RemoveFromScore(PriceForRecoverHP);
+            RemoveFromScore(PriceForRecoverHealth);
         }
     }
 

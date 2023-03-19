@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 1) Проверяет кол-во врагов на сцене (Запускает движение игрока)
+/// 2) Включает панель перезапуска игры в случае победы (уничтожения всех врагов)
+/// 3) Активирует врагов
+/// </summary>
 public class EnemiesController : MonoBehaviour
 {
     [SerializeField] private Player _player;
@@ -8,7 +12,7 @@ public class EnemiesController : MonoBehaviour
     [SerializeField] private UIAndGameController _uiAndGameController;
 
     private int _counter;
-    private int _lastEnemyNumber = 8;
+    private Enemy _lastEnemy => _enemies[_enemies.Count-1];
 
     public IEnumerable<Enemy> Enemies => _enemies;
 
@@ -20,7 +24,7 @@ public class EnemiesController : MonoBehaviour
             return;
         }
 
-        if (_enemies[_lastEnemyNumber].IsDead)
+        if (_lastEnemy.IsDead)
         {
             _uiAndGameController.AwakeFinishPanel();
         }

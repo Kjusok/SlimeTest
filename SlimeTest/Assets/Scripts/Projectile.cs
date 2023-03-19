@@ -1,5 +1,10 @@
 using UnityEngine;
-
+/// <summary>
+/// 1) Перемещение снаряда по дуге
+/// 2) Нанисение урона снарядом
+/// 3) Косание со врагом
+/// 4) Создание эффекта взырва снаряда
+/// </summary>
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private int _speed;
