@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3503d0eefc755e840b5ddacf541059cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 0}
+  _target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
   _prefabPopUpTextDamage: {fileID: 5735771402735165461, guid: ee67379e856cba841b6a3ee8c8301b88, type: 3}
   _heathBar: {fileID: 732085018003656344}
   _enemiesController: {fileID: 0}
@@ -234,8 +234,10 @@ MonoBehaviour:
   _canvas: {fileID: 1025294202857444635}
   _enemiesAnimations: {fileID: 4676884151671627204}
   _rotationSpeed: 1.5
-  _movementSpeed: 1.2
+  _movementSpeed: 0.8
   _maxHealth: 100
+  _damage: 5
+  _deathPrefab: {fileID: 5955631355445860011, guid: 4d14a32526adaf3468a2e52271d71cee, type: 3}
 --- !u!54 &8799200344548286154
 Rigidbody:
   m_ObjectHideFlags: 0

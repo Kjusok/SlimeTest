@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// 1) Косаться трригера
@@ -25,8 +28,6 @@ public class Player : MonoBehaviour
     private const float MovementOffsetRight = 0.9f;
     private const float MovementOffsetLeft = -0.8f;
     private const float AttackSpeedStep = 0.1f;
-    private const int ValueForMaxIndex = 2;
-    private const int MaxValueForMaxIndex = 9;
     private const int StartDamage = 15;
     private const int StartHealth = 100;
     private const int RecoveryHealthValue = 5;
@@ -60,8 +61,6 @@ public class Player : MonoBehaviour
     private float _timerDustEffectFlash;
     private float _maxHealth;
     private float _startSpeedAttack = 2;
-    private int _counterWaves;
-    private int _maxIndexForEnemiesTrigger;
     private int _damage;
 
 
@@ -70,7 +69,6 @@ public class Player : MonoBehaviour
         _damage = StartDamage;
         _maxHealth = StartHealth;
         _health = _maxHealth;
-        _maxIndexForEnemiesTrigger = 0;
     }
     
     private void Update()
@@ -89,7 +87,7 @@ public class Player : MonoBehaviour
         CheckSpawnEffectsTimer();
         CheckDustEffectsTimer();
 
-        if (_movementOffset == 0 && _counterWaves > 0)
+        if (_movementOffset == 0 && _enemiesController.Enemies.Count != 0)
         {
             StartAttack();
         }
@@ -101,22 +99,15 @@ public class Player : MonoBehaviour
         MovementController();
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         var trigger = other.GetComponent<TriggerToActivateEnemies>();
-
+        
         if (trigger)
         {
-            _counterWaves++;
-            _maxIndexForEnemiesTrigger += ValueForMaxIndex;
-
-            if (_maxIndexForEnemiesTrigger > MaxValueForMaxIndex)
-            {
-                _maxIndexForEnemiesTrigger = MaxValueForMaxIndex;
-            }
-
-            _enemiesController.ActivateEnemies(_maxIndexForEnemiesTrigger);
+            _enemiesController.SpawnEnemiesWave();
         }
+        
     }
 
     private Enemy FindClosestEnemy()

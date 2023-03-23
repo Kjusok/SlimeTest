@@ -24,14 +24,21 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _maxHealth = 100;
     [SerializeField] private float _damage = 5;
+    [SerializeField] private GameObject _deathPrefab;
 
     private readonly Vector3 _textOffset = new Vector3(0.2f, 0.5f);
 
     private bool _isAttack;
-    private bool _isActive;
     private float _timerToNextHit;
     private float _heath;
     private int _score;
+
+    public void Initialize(UIAndGameController UI, Player target, EnemiesController enemiesController)
+    {
+        _uiAndGameController = UI;
+        _target = target;
+        _enemiesController = enemiesController;
+    }
 
     public bool IsDead { get; private set; }
    
@@ -45,11 +52,6 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         if (_uiAndGameController.GameIsPaused)
-        {
-            return;
-        }
-
-        if (!_isActive)
         {
             return;
         }
@@ -141,15 +143,14 @@ public class Enemy : MonoBehaviour
         {
             IsDead = true;
 
-            _enemiesController.CheckListEnemies();
             _uiAndGameController.AddCoinsToWallet(_score);
-
+            
+            _enemiesController.RemoveEnemyFromList(this);
             Destroy(gameObject);
+            
+            Instantiate(_deathPrefab, transform.position, Quaternion.identity);
         }
     }
 
-    public void Activate()
-    {
-        _isActive = true;
-    }
+   
 }
