@@ -16,19 +16,23 @@ public class Projectile : MonoBehaviour
     private float _distanceTravelled;
     private float _arcFactor = 0.8f;
 
-    private int _damage;
+    private float _damage;
 
-
-    private void OnEnable()
+    public void Launch(Transform target, float damage)
     {
+        _target = target;
+        _damage = damage;
+        
         _origin = transform.position;
         _currentPosition = transform.position;
     }
-
+    
+    
     private void Update()
     {
         if (!_target)
         {
+            Debug.LogError("Target not specified");
             Destroy(gameObject);
             return;
         }
@@ -53,11 +57,5 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
             Instantiate(_explodionPrefab, transform.position, Quaternion.identity);
         }
-    }
-
-    public void Initialize(Transform target, int damage)
-    {
-        _target = target;
-        _damage = damage;
     }
 }

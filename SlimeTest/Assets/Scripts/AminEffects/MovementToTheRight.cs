@@ -1,17 +1,18 @@
 using UnityEngine;
+
 /// <summary>
 /// 1) Передвижение объекта вправо
 /// </summary>
-public class MovementWindEffect : MonoBehaviour
+public class MovementToTheRight : MonoBehaviour
 {
-    private const float MinValue = 0.7f;
-    private const float MaxValue = 1f;
+    [SerializeField] private float _minValue = 0.7f;
+    [SerializeField] private float _maxValue = 1f;
     
     private float _speed;
 
     private void Awake()
     {
-        _speed = Random.Range(MinValue, MaxValue);
+        _speed = Random.Range(_minValue, _maxValue);
     }
 
     private void Update()

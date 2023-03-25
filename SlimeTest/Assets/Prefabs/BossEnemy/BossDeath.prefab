@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1849659399131306142, guid: 4d14a32526adaf3468a2e52271d71cee, type: 3}
+      propertyPath: _duration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5955631355445860011, guid: 4d14a32526adaf3468a2e52271d71cee, type: 3}
       propertyPath: m_Name
       value: BossDeath

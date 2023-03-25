@@ -59,6 +59,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2295482923296621545, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4625067805883464356, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
       propertyPath: m_Controller
       value: 
@@ -87,6 +91,14 @@ PrefabInstance:
       propertyPath: _target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: _deathPrefab
+      value: 
+      objectReference: {fileID: 5955631355445860011}
     - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
       propertyPath: _gameManager
       value: 
@@ -131,4 +143,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5df5ed5f0129c849b49f04e349da16c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timer: 2
+  _duration: 2

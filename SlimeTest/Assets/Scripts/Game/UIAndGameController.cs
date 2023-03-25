@@ -7,12 +7,14 @@ using UnityEngine.SceneManagement;
 /// 3) Перезагружать сцену
 /// 4) Активировать различные панели (победа, проигрышь, старт игры)
 /// 5) увеличивать различные характериски игрока после нажатия кнопки (повышение жизни, пополнение здоровья, увилечение урона, увелечение скорости атаки)
+/// 6) Включает панель перезапуска игры в случае победы (уничтожения всех врагов)
 /// </summary>
 public class UIAndGameController : MonoBehaviour
 {
     private const int PriceForCharacteristics = 25;
     private const int PriceForRecoverHealth = 10;
 
+    [SerializeField] private EnemiesWaveController _enemiesWaveController;
     [SerializeField] private Player _player;
     [SerializeField] private Text _walletText;
     [SerializeField] private GameObject _startButton;
@@ -34,6 +36,12 @@ public class UIAndGameController : MonoBehaviour
     private void Update()
     {
         CheckAvailableButtons();
+        
+        if (_enemiesWaveController.CounterWaves == _enemiesWaveController.LastWaves &&
+            _enemiesWaveController.Enemies.Count == 0)
+        {
+            AwakeFinishPanel();
+        }
     }
 
     private void RemoveFromScore(int coins)
@@ -76,7 +84,7 @@ public class UIAndGameController : MonoBehaviour
         _restartButton.SetActive(true);
     }
 
-    public void AwakeFinishPanel()
+    private void AwakeFinishPanel()
     {
         _isPaused = true;
         _restartButton.SetActive(true);

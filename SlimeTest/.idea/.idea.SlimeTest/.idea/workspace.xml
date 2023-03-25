@@ -7,6 +7,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy/Enemy.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -82,7 +85,7 @@
       <workItem from="1678903181519" duration="9571000" />
       <workItem from="1679139412030" duration="7252000" />
       <workItem from="1679241248425" duration="16049000" />
-      <workItem from="1679513443159" duration="4607000" />
+      <workItem from="1679513443159" duration="23101000" />
     </task>
     <servers />
   </component>

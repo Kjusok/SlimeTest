@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 1879716915892066301, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1879716915892066303, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -66,6 +70,14 @@ PrefabInstance:
     - target: {fileID: 1879716915892066303, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2295482923296621545, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
       propertyPath: _maxHealth

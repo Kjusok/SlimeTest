@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -19,7 +20,7 @@ using Random = UnityEngine.Random;
 /// 12) увеличивать скорость атаки
 /// </summary>
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageble
 {
     private const float MovementTime = 2.5f;
     private const float SpawnFlashEffectTime = 0.3f;
@@ -33,23 +34,19 @@ public class Player : MonoBehaviour
     private const int RecoveryHealthValue = 5;
     private const int ValueForHealthUp = 10;
 
-    private readonly Vector3 _textOffset = new Vector3(0.2f, 0.5f);
     private readonly Vector3 _positionOffset = new Vector3(0.2f, 1f);
 
     [SerializeField] private PlayerAnimations _playerAnimations;
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private EnemiesController _enemiesController;
+    [FormerlySerializedAs("_enemiesMaker")] [FormerlySerializedAs("_enemiesController")] [SerializeField] private EnemiesWaveController _enemiesWaveController;
     [SerializeField] private UIAndGameController _uiAndGameController;
     [SerializeField] private Enemy _currentEnemy;
     [SerializeField] private Projectile _projectilePrefab;
     [SerializeField] private Image _heathBar;
-    [SerializeField] private PopUpText _prefabPopUpTextDamage;
-    [SerializeField] private PopUpText _prefabPopUpTextHealtUp;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private Text _currentDamageText;
     [SerializeField] private Text _currentAttackSpeedText;
     [SerializeField] private Text _currentHealthUpText;
-    [SerializeField] private GameObject _flashSpeedEffectPrefab;
     [SerializeField] private GameObject _dustEffectPrefab;
     [SerializeField] private GameObject _windEffectPrefab;
     [SerializeField] private float _health;
@@ -63,6 +60,7 @@ public class Player : MonoBehaviour
     private float _startSpeedAttack = 2;
     private int _damage;
 
+    public event Action<float> GotHit;
 
     private void Awake()
     {
@@ -87,7 +85,7 @@ public class Player : MonoBehaviour
         CheckSpawnEffectsTimer();
         CheckDustEffectsTimer();
 
-        if (_movementOffset == 0 && _enemiesController.Enemies.Count != 0)
+        if (_movementOffset == 0 && _enemiesWaveController.Enemies.Count != 0)
         {
             StartAttack();
         }
@@ -105,7 +103,7 @@ public class Player : MonoBehaviour
         
         if (trigger)
         {
-            _enemiesController.SpawnEnemiesWave();
+            _enemiesWaveController.SpawnEnemiesWave();
         }
         
     }
@@ -115,7 +113,7 @@ public class Player : MonoBehaviour
         var distance = Mathf.Infinity;
         Vector3 position = transform.position;
 
-        foreach (Enemy enemy in _enemiesController.Enemies)
+        foreach (Enemy enemy in _enemiesWaveController.Enemies)
         {
             if (enemy.IsDead)
             {
@@ -191,18 +189,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void ShowChangeHealth(float value, PopUpText prefab)
-    {
-        var text = Instantiate(prefab,
-            new Vector3(transform.position.x + (Random.Range(-_textOffset.x, _textOffset.x)),
-            transform.position.y + _textOffset.y,
-            transform.position.z),
-            transform.rotation);
-
-        text.transform.SetParent(_canvas.transform, true);
-        text.Initialize(value.ToString());
-    }
-
     private void StartAttack()
     {
         _playerAnimations.Attack();
@@ -226,7 +212,7 @@ public class Player : MonoBehaviour
         if (_currentEnemy != null)
         {
             var projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
-            projectile.Initialize(_currentEnemy.transform, _damage);
+            projectile.Launch(_currentEnemy.transform, _damage);
         }
     }
 
@@ -243,8 +229,9 @@ public class Player : MonoBehaviour
         _heathBar.fillAmount = _health / _maxHealth;
 
         _playerAnimations.Hurt();
-        ShowChangeHealth(-damage, _prefabPopUpTextDamage);
 
+        GotHit?.Invoke(damage);
+        
         if(_health <= 0)
         {
             _uiAndGameController.AwakePanelYouDied();
@@ -258,8 +245,6 @@ public class Player : MonoBehaviour
         {
             _health += RecoveryHealthValue;
             _heathBar.fillAmount = _health / _maxHealth;
-
-            ShowChangeHealth(RecoveryHealthValue, _prefabPopUpTextHealtUp);
         }
     }
 
@@ -282,4 +267,5 @@ public class Player : MonoBehaviour
         _playerAnimations.CreateSpeedAttack(_startSpeedAttack);
         _currentAttackSpeedText.text = _startSpeedAttack.ToString("0.00");
     }
+
 }

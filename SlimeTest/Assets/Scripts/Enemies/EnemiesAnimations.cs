@@ -1,15 +1,23 @@
+using System;
 using UnityEngine;
 
 /// <summary>
-/// Воспроизведение анимаций
+///  Адаптирует анимации
 /// </summary>
+[RequireComponent(typeof(Animator))]
 public class EnemiesAnimations : MonoBehaviour
 {
-    [SerializeField] private Animator _animator;
-
     private readonly int _walkStateName = Animator.StringToHash("Walk");
     private readonly int _hurtStateName = Animator.StringToHash("Hurt");
     private readonly int _attackStateName = Animator.StringToHash("Attack");
+
+    private Animator _animator;
+
+    
+    protected void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
 
     public void Walk(bool flag)
     {

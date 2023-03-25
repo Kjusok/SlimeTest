@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
@@ -5,20 +6,20 @@ using UnityEngine.UI;
 /// 2) Способность атаковать
 /// 3) Перемещаться к цели (движение и вращение)
 /// 4) Показывать урон
+/// 5) Обнавляет отображение жизнец
 /// 5) Получать урон
 /// 6) Активироваться 
 /// </summary>
-public class Enemy : MonoBehaviour
+
+public class Enemy : MonoBehaviour, IDamageble
 {
     private const int BaseScore = 100;
     private const float NexHitDelay = 1;
 
     [SerializeField] private Player _target;
-    [SerializeField] private PopUpText _prefabPopUpTextDamage;
     [SerializeField] private Image _heathBar;
-    [SerializeField] private EnemiesController _enemiesController;
+    [SerializeField] private EnemiesWaveController _enemiesWaveController;
     [SerializeField] private UIAndGameController _uiAndGameController;
-    [SerializeField] private Canvas _canvas;
     [SerializeField] private EnemiesAnimations _enemiesAnimations;
     [SerializeField] private float _rotationSpeed = 1;
     [SerializeField] private float _movementSpeed;
@@ -26,21 +27,23 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _damage = 5;
     [SerializeField] private GameObject _deathPrefab;
 
-    private readonly Vector3 _textOffset = new Vector3(0.2f, 0.5f);
 
     private bool _isAttack;
     private float _timerToNextHit;
     private float _heath;
     private int _score;
 
-    public void Initialize(UIAndGameController UI, Player target, EnemiesController enemiesController)
+    public void Initialize(UIAndGameController UI, Player target, EnemiesWaveController enemiesWaveController)
     {
         _uiAndGameController = UI;
         _target = target;
-        _enemiesController = enemiesController;
+        _enemiesWaveController = enemiesWaveController;
     }
 
     public bool IsDead { get; private set; }
+    
+    public event Action<float> GotHit;
+
    
 
     private void Start()
@@ -121,23 +124,15 @@ public class Enemy : MonoBehaviour
         transform.Translate(Vector3.forward * _movementSpeed * Time.deltaTime);
     }
 
-    private void ShowDamage(float damage)
-    {
-        var text = Instantiate(_prefabPopUpTextDamage,
-            new Vector3(transform.position.x + (Random.Range(-_textOffset.x, _textOffset.x)), transform.position.y + _textOffset.y, transform.position.z),
-           Quaternion.identity);
-        text.transform.SetParent(_canvas.transform, true);
-        text.Initialize($"{ damage}");
-    }
-
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         _heath -= damage;
 
-        ShowDamage(damage);
         _enemiesAnimations.Hurt();
 
         _heathBar.fillAmount = _heath / _maxHealth;
+
+        GotHit?.Invoke(damage);
 
         if (_heath <= 0)
         {
@@ -145,12 +140,12 @@ public class Enemy : MonoBehaviour
 
             _uiAndGameController.AddCoinsToWallet(_score);
             
-            _enemiesController.RemoveEnemyFromList(this);
+            _enemiesWaveController.RemoveEnemyFromList(this);
             Destroy(gameObject);
             
             Instantiate(_deathPrefab, transform.position, Quaternion.identity);
         }
     }
 
-   
+
 }

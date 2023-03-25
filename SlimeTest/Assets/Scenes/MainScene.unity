@@ -27065,6 +27065,7 @@ GameObject:
   - component: {fileID: 770243072}
   - component: {fileID: 770243071}
   - component: {fileID: 770243075}
+  - component: {fileID: 770243076}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -27175,6 +27176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a044be6e9f03914d988d44dbaacda8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemiesWaveController: {fileID: 499309585}
   _player: {fileID: 1367570701}
   _walletText: {fileID: 304012678}
   _startButton: {fileID: 143216489}
@@ -27185,6 +27187,20 @@ MonoBehaviour:
   _upHealthButton: {fileID: 106550658}
   _upSpeedAttackButton: {fileID: 23139008}
   _recoveryHealthButton: {fileID: 2067543276}
+--- !u!114 &770243076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770243070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8432d8cf9fac4f1b958c79a74b27c3b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemiesWaveController: {fileID: 499309585}
+  _player: {fileID: 1367570701}
 --- !u!1 &771560398
 GameObject:
   m_ObjectHideFlags: 0
@@ -45882,6 +45898,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 32812279}
+--- !u!114 &1275183837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275183832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef17fad194348dfa2fd2c3efcf0cd99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabPopUpTextDamage: {fileID: 5735771402735165461, guid: ee67379e856cba841b6a3ee8c8301b88, type: 3}
+  _textOffset: {x: 0.2, y: 0.5, z: 0}
+  _canvas: {fileID: 208208225}
 --- !u!1 &1275749781
 GameObject:
   m_ObjectHideFlags: 0
@@ -74196,6 +74227,10 @@ PrefabInstance:
       propertyPath: _currentAtackSpeedText
       value: 
       objectReference: {fileID: 1536289843}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _enemiesWaveController
+      value: 
+      objectReference: {fileID: 499309585}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _prefabPopUpTextDamage
       value: 
