@@ -4,12 +4,11 @@ using UnityEngine.UI;
 /// 1) Движение текст вверх
 /// 2) Уничтожение объекта
 /// </summary>
-public class PopUpText : MonoBehaviour
+public class TextMovementToUp : MonoBehaviour
 {
     [SerializeField] private float _timeForDeath = 0.3f;
     [SerializeField] private float _speed = 1;
     [SerializeField] private Text _text;
-    [SerializeField] private Color _color;
 
     private float _timer;
     

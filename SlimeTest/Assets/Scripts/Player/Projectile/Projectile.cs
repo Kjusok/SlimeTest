@@ -1,14 +1,11 @@
 using UnityEngine;
+
 /// <summary>
 /// 1) Перемещение снаряда по дуге
-/// 2) Нанисение урона снарядом
-/// 3) Косание со врагом
-/// 4) Создание эффекта взырва снаряда
 /// </summary>
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private int _speed;
-    [SerializeField] private GameObject _explodionPrefab;
 
     private Transform _target;
     private Vector3 _currentPosition;
@@ -16,17 +13,17 @@ public class Projectile : MonoBehaviour
     private float _distanceTravelled;
     private float _arcFactor = 0.8f;
 
-    private float _damage;
+    public float Damage { get; private set; }
 
+    
     public void Launch(Transform target, float damage)
     {
         _target = target;
-        _damage = damage;
+        Damage = damage;
         
         _origin = transform.position;
         _currentPosition = transform.position;
     }
-    
     
     private void Update()
     {
@@ -44,18 +41,5 @@ public class Projectile : MonoBehaviour
         float totalDistance = Vector3.Distance(_origin, _target.position);
         float heightOffset = _arcFactor * totalDistance * Mathf.Sin(_distanceTravelled * Mathf.PI / totalDistance);
         transform.position = _currentPosition + new Vector3(0, 0, heightOffset);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        var enemy = other.GetComponent<Enemy>();
-
-        if (enemy)
-        {
-            enemy.TakeDamage(_damage);
-
-            Destroy(gameObject);
-            Instantiate(_explodionPrefab, transform.position, Quaternion.identity);
-        }
     }
 }

@@ -3,7 +3,7 @@
 public class LaunchPlayerMovement : MonoBehaviour
 {
     [SerializeField] private EnemiesWaveController _enemiesWaveController;
-    [SerializeField] private Player _player;
+    [SerializeField] private PlayerMovement _playerMovementr;
 
     private void Update()
     {
@@ -11,7 +11,7 @@ public class LaunchPlayerMovement : MonoBehaviour
             !_enemiesWaveController.IsAllEnemiesInWaveDead &&
             _enemiesWaveController.CounterWaves < _enemiesWaveController.LastWaves)
         {
-            _player.StartMovement();
+            _playerMovementr.StartMovement();
             _enemiesWaveController.EnemiesInWaveDead();
         }
     }

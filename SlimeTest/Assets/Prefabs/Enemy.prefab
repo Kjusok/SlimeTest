@@ -143,6 +143,9 @@ GameObject:
   - component: {fileID: 8799200344548286154}
   - component: {fileID: 2295482923296621545}
   - component: {fileID: 7582319427185537943}
+  - component: {fileID: 4570237148778254253}
+  - component: {fileID: 4318433497881156462}
+  - component: {fileID: 5625759432877297693}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -226,15 +229,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3503d0eefc755e840b5ddacf541059cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
   _heathBar: {fileID: 732085018003656344}
-  _enemiesController: {fileID: 0}
+  _enemiesWaveController: {fileID: 0}
   _uiAndGameController: {fileID: 0}
   _enemiesAnimations: {fileID: 4676884151671627204}
-  _rotationSpeed: 1.5
-  _movementSpeed: 0.8
   _maxHealth: 100
-  _damage: 5
   _deathPrefab: {fileID: 5955631355445860011, guid: 4d14a32526adaf3468a2e52271d71cee, type: 3}
 --- !u!54 &8799200344548286154
 Rigidbody:
@@ -278,9 +277,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef17fad194348dfa2fd2c3efcf0cd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabPopUpTextDamage: {fileID: 5735771402735165461, guid: ee67379e856cba841b6a3ee8c8301b88, type: 3}
+  _prefabTextMovementToUpDamage: {fileID: 5735771402735165461, guid: ee67379e856cba841b6a3ee8c8301b88, type: 3}
   _textOffset: {x: 0.2, y: 0.5, z: 0}
   _canvas: {fileID: 1025294202857444635}
+--- !u!114 &4570237148778254253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879716915892066299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3000617fd15e4880b80b7565f1763e43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationSpeed: 1
+  _movementSpeed: 0.7
+  _enemiesAnimations: {fileID: 4676884151671627204}
+  _target: {fileID: 0}
+  _enemy: {fileID: 7804250762050683685}
+--- !u!114 &4318433497881156462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879716915892066299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d96d118f8a74d998cf06678fe128c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 0}
+  _enemy: {fileID: 7804250762050683685}
+  _damage: 5
+--- !u!114 &5625759432877297693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879716915892066299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a9c4904be74ceca737c70fdfa4f6de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemy: {fileID: 7804250762050683685}
+  _enemiesAnimations: {fileID: 4676884151671627204}
 --- !u!1 &5403334972461388208
 GameObject:
   m_ObjectHideFlags: 0

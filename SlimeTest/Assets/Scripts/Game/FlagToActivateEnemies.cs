@@ -2,7 +2,7 @@ using UnityEngine;
 /// <summary>
 /// Просто триггер для активации врагов
 /// </summary>
-public class TriggerToActivateEnemies : MonoBehaviour
+public class FlagToActivateEnemies : MonoBehaviour
 {
    
 }

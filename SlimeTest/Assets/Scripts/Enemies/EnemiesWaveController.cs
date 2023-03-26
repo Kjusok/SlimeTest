@@ -4,6 +4,8 @@ using Random = UnityEngine.Random;
 
 /// <summary>
 /// 1) Создает волны врагов
+/// 2) Считает волны
+/// 3) Выбирает тип врага
 /// </summary>
 public class EnemiesWaveController : MonoBehaviour
 {
@@ -16,7 +18,7 @@ public class EnemiesWaveController : MonoBehaviour
     
     [SerializeField] private Player _player;
     [SerializeField] private List<Enemy> _enemies;
-    [SerializeField] private UIAndGameController _uiAndGameController;
+    [SerializeField] private Wallet _wallet;
     [SerializeField] private Enemy _enemyPrefab;
     [SerializeField] private Enemy _bossPrefab;
 
@@ -61,7 +63,9 @@ public class EnemiesWaveController : MonoBehaviour
                 Random.Range(OffsetMinZ,OffsetMaxZ)),
                 Quaternion.identity);
             
-            enemy.GetComponent<Enemy>().Initialize(_uiAndGameController,_player, this);
+            enemy.GetComponent<Enemy>().Initialize(_wallet, this);
+            enemy.GetComponent<EnemiesMovementController>().Initialize(_player);
+            enemy.GetComponent<EnemyAttack>().Initialize(_player);
             enemy.transform.SetParent(transform, false);
             
             _enemies.Add(enemy);

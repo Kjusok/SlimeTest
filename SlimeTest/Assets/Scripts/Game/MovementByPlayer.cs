@@ -2,7 +2,7 @@ using UnityEngine;
 /// <summary>
 /// Перемещение камеры за игроком
 /// </summary>
-public class CameraController : MonoBehaviour
+public class MovementByPlayer : MonoBehaviour
 {
     [SerializeField] private Transform _playerTarget;
     [SerializeField] private float _moveSpeed;

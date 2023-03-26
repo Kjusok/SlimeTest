@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
+/// <summary>
+/// 1) Отабражает урон ввиде текста над объектом
+/// </summary>
 [RequireComponent(typeof(IDamageble))]
 public class DamageText : MonoBehaviour
 {
-    [SerializeField] private PopUpText _prefabPopUpTextDamage;
+    [FormerlySerializedAs("_prefabPopUpTextDamage")] [SerializeField] private TextMovementToUp _prefabTextMovementToUpDamage;
     [SerializeField] private Vector3 _textOffset = new Vector3(0.2f, 0.5f);
     [SerializeField] private Canvas _canvas;
 
@@ -26,7 +30,7 @@ public class DamageText : MonoBehaviour
 
     private void OnHitted(float damage)
     {
-        var text = Instantiate(_prefabPopUpTextDamage,
+        var text = Instantiate(_prefabTextMovementToUpDamage,
             new Vector3(transform.position.x + (Random.Range(-_textOffset.x, _textOffset.x)),
                 transform.position.y + _textOffset.y, transform.position.z),
             Quaternion.identity);

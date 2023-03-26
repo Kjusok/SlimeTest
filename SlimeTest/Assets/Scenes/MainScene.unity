@@ -17455,7 +17455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 1367570701}
   _enemies: []
-  _uiAndGameController: {fileID: 770243075}
+  _wallet: {fileID: 770243077}
   _enemyPrefab: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
   _bossPrefab: {fileID: 2391293987944008764, guid: 55d50ea2be527e04d97165a4397bc92e, type: 3}
 --- !u!4 &499309586
@@ -27066,6 +27066,9 @@ GameObject:
   - component: {fileID: 770243071}
   - component: {fileID: 770243075}
   - component: {fileID: 770243076}
+  - component: {fileID: 770243077}
+  - component: {fileID: 770243078}
+  - component: {fileID: 770243079}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -27176,13 +27179,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a044be6e9f03914d988d44dbaacda8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemiesWaveController: {fileID: 499309585}
-  _player: {fileID: 1367570701}
-  _walletText: {fileID: 304012678}
+  _sceneController: {fileID: 770243079}
+  _gameStatesController: {fileID: 770243078}
+  _statsController: {fileID: 1275183834}
+  _wallet: {fileID: 770243077}
+  _playerMovement: {fileID: 1275183835}
   _startButton: {fileID: 143216489}
-  _panelYouDied: {fileID: 456149388}
-  _restartButton: {fileID: 175417877}
-  _panelYouWin: {fileID: 2011513886}
   _upDamageButton: {fileID: 2023441866}
   _upHealthButton: {fileID: 106550658}
   _upSpeedAttackButton: {fileID: 23139008}
@@ -27200,7 +27202,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemiesWaveController: {fileID: 499309585}
-  _player: {fileID: 1367570701}
+  _playerMovementr: {fileID: 1275183835}
+--- !u!114 &770243077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770243070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00c5e0dc740458980a61b975ad29dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _walletText: {fileID: 304012678}
+--- !u!114 &770243078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770243070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f79c997cb04a13a87539721baa7f71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemiesWaveController: {fileID: 499309585}
+  _panelYouDied: {fileID: 456149388}
+  _restartButton: {fileID: 175417877}
+  _panelYouWin: {fileID: 2011513886}
+--- !u!114 &770243079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770243070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a19c7689c930492ab6644915874cd4e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &771560398
 GameObject:
   m_ObjectHideFlags: 0
@@ -45898,6 +45941,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 32812279}
+--- !u!114 &1275183834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275183832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 735930501eee4a46865e4e9dbeec3403, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentDamageText: {fileID: 499618039}
+  _currentAttackSpeedText: {fileID: 1536289843}
+  _currentHealthUpText: {fileID: 463514881}
+  _playerAnimations: {fileID: 1275183833}
+  _heathBar: {fileID: 553879844}
+--- !u!114 &1275183835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275183832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17498baa6724ed2a98abce85f13274e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rigidbody: {fileID: 980723261}
+  _playerAnimations: {fileID: 1275183833}
+  _movementEffectsController: {fileID: 1275183836}
+--- !u!114 &1275183836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275183832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda2fdb4fbd04a799614d3f344708fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 208208225}
+  _dustEffectPrefab: {fileID: 2493519935422930819, guid: 5216a7e58f981344e8674879a7826d20, type: 3}
+  _windEffectPrefab: {fileID: 7142821037804345218, guid: e62d7d0ca2fee8f4db0b0b55127dd7cd, type: 3}
 --- !u!114 &1275183837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45910,9 +46000,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef17fad194348dfa2fd2c3efcf0cd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabPopUpTextDamage: {fileID: 5735771402735165461, guid: ee67379e856cba841b6a3ee8c8301b88, type: 3}
+  _prefabTextMovementToUpDamage: {fileID: 5735771402735165461, guid: ee67379e856cba841b6a3ee8c8301b88, type: 3}
   _textOffset: {x: 0.2, y: 0.5, z: 0}
   _canvas: {fileID: 208208225}
+--- !u!114 &1275183838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275183832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b655a5b593d84f259d9618ca67a0aab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemiesWaveController: {fileID: 499309585}
+--- !u!114 &1275183839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275183832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a2ff12f6a214aa3851c1c153b9c04e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _finderClosestEnemy: {fileID: 1275183838}
+  _projectilePrefab: {fileID: 9177843100946662425, guid: beaf08662090b6a478d27de2b7c13d75, type: 3}
+  _statsController: {fileID: 1275183834}
+--- !u!114 &1275183840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275183832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7586efb62414ad885d94436098c36c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemiesWaveController: {fileID: 499309585}
 --- !u!1 &1275749781
 GameObject:
   m_ObjectHideFlags: 0
@@ -74180,6 +74311,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9177843100946662425, guid: beaf08662090b6a478d27de2b7c13d75, type: 3}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _playerMovement
+      value: 
+      objectReference: {fileID: 1275183835}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 499309585}
@@ -74187,6 +74322,10 @@ PrefabInstance:
       propertyPath: _prefabTextGreen
       value: 
       objectReference: {fileID: 1409627251805502973, guid: 9c4584da97afdd44ab0a7b07f631dc44, type: 3}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _statsController
+      value: 
+      objectReference: {fileID: 1275183834}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _dustEffectPrefab
       value: 
@@ -74212,6 +74351,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 499309585}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _finderClosestEnemy
+      value: 
+      objectReference: {fileID: 1275183838}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _UIAndGameController
       value: 
       objectReference: {fileID: 770243075}
@@ -74223,6 +74366,10 @@ PrefabInstance:
       propertyPath: _uiAndGameController
       value: 
       objectReference: {fileID: 770243075}
+    - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
+      propertyPath: _gameStatesController
+      value: 
+      objectReference: {fileID: 770243078}
     - target: {fileID: 4490819163641990958, guid: 672a6413c03e55049a25ba57af7f91c4, type: 3}
       propertyPath: _currentAtackSpeedText
       value: 
@@ -74486,5 +74633,21 @@ PrefabInstance:
       propertyPath: _player
       value: 
       objectReference: {fileID: 1367570701}
+    - target: {fileID: 7699735691320756351, guid: ca4d255702a3174458e37dc571c2470e, type: 3}
+      propertyPath: _playerMovement
+      value: 
+      objectReference: {fileID: 1275183835}
+    - target: {fileID: 7699735691320756351, guid: ca4d255702a3174458e37dc571c2470e, type: 3}
+      propertyPath: _playerAnimations
+      value: 
+      objectReference: {fileID: 1275183833}
+    - target: {fileID: 7699735691320756351, guid: ca4d255702a3174458e37dc571c2470e, type: 3}
+      propertyPath: _spawnProjectiles
+      value: 
+      objectReference: {fileID: 1275183839}
+    - target: {fileID: 7699735691320756351, guid: ca4d255702a3174458e37dc571c2470e, type: 3}
+      propertyPath: _enemiesWaveController
+      value: 
+      objectReference: {fileID: 499309585}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca4d255702a3174458e37dc571c2470e, type: 3}
