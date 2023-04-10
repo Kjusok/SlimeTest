@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 /// <summary>
 /// 1) Обнавляет отображение жизнец
@@ -12,35 +11,26 @@ public class Enemy : MonoBehaviour, IDamageble
     private const int BaseScore = 100;
 
     [SerializeField] private Image _heathBar;
-    [SerializeField] private EnemiesWaveController _enemiesWaveController;
-    [SerializeField] private Wallet _wallet;
     [SerializeField] private EnemiesAnimations _enemiesAnimations;
     [SerializeField] private GameObject _deathPrefab;
     [SerializeField] private float _maxHealth = 100;
 
-    private int _score;
     private float _heath;
 
-
+    public int Score { get; private set; }
     public bool IsDead { get; private set; }
-    public bool IsAttack{ get; private set; }
+    public bool IsAttack{ get; set; }
 
     public event Action<float> GotHit;
+    public event Action<Enemy> Dead; 
 
-   
-    public void Initialize(Wallet wallet, EnemiesWaveController enemiesWaveController)
+
+    private void Awake()
     {
-        _wallet = wallet;
-        _enemiesWaveController = enemiesWaveController;
-        _score = BaseScore;
+        Score = BaseScore;
         _heath = _maxHealth;
     }
-
-   public void AttackState(bool isAttack)
-    {
-        IsAttack = isAttack;
-    }
-    
+   
     public void TakeDamage(float damage)
     {
         _heath -= damage;
@@ -54,10 +44,9 @@ public class Enemy : MonoBehaviour, IDamageble
         if (_heath <= 0)
         {
             IsDead = true;
-    
-            _wallet.AddCoinsToWallet(_score);
-            _enemiesWaveController.RemoveEnemyFromList(this);
             
+            Dead?.Invoke(this);
+    
             Destroy(gameObject);
     
             Instantiate(_deathPrefab, transform.position, Quaternion.identity);

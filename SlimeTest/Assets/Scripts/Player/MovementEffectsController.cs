@@ -6,6 +6,8 @@ public class MovementEffectsController : MonoBehaviour
 {
     private const float SpawnFlashEffectTime = 0.3f;
     private const float SpawnDustEffectTime = 1f;
+    private const float OffsetX = 0.58f;
+    private const float OffsetY = 0.14f;
     
     [SerializeField] private Canvas _canvas;
     [SerializeField] private GameObject _dustEffectPrefab;
@@ -23,6 +25,7 @@ public class MovementEffectsController : MonoBehaviour
         CheckDustEffectsTimer();
     }
 
+    
     private void CheckSpawnEffectsTimer()
     {
         if (_timerSpawnEffectFlash > 0)
@@ -55,8 +58,11 @@ public class MovementEffectsController : MonoBehaviour
 
     private void SpawnDustEffects()
     {
-        var dust = Instantiate(_dustEffectPrefab, new Vector3(transform.position.x - 0.58f, transform.position.y + 0.14f,
-            transform.position.z), Quaternion.identity);
+        var dust = Instantiate(_dustEffectPrefab,
+            new Vector3(transform.position.x - OffsetX,
+            transform.position.y + OffsetY,
+            transform.position.z),
+            Quaternion.identity);
         dust.transform.SetParent(_canvas.transform, true);
     }
 

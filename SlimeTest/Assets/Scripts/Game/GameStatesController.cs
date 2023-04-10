@@ -11,8 +11,6 @@ public class GameStatesController : MonoBehaviour
     
     private bool _isPaused;
     
-    public bool GameIsPaused => _isPaused;
-
     public bool GameIsStarted { get; private set; }
 
     private void Update()
@@ -20,23 +18,23 @@ public class GameStatesController : MonoBehaviour
         if (_enemiesWaveController.CounterWaves == _enemiesWaveController.LastWaves &&
             _enemiesWaveController.Enemies.Count == 0)
         {
-            AwakeFinishPanel();
+            FinishGame();
         }
     }
 
-    public void GameStartedState(bool isStarted)
+    public void GameStart()
     {
-        GameIsStarted = isStarted;
+        GameIsStarted = true;
     }
 
-    public void AwakePanelYouDied()
+    public void PlayerDead()
     {
         _isPaused = true;
         _panelYouDied.SetActive(true);
         _restartButton.SetActive(true);
     }
 
-    private void AwakeFinishPanel()
+    private void FinishGame()
     {
         _isPaused = true;
         _restartButton.SetActive(true);

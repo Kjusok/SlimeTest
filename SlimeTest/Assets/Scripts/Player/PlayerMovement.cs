@@ -41,12 +41,12 @@ public class PlayerMovement : MonoBehaviour
                 MovementOffset = MovementOffsetLeft;
             }
 
-            _playerAnimations.PlayRun(true);
+            _playerAnimations.Run(true);
         }
         else
         {
             MovementOffset = 0;
-            _playerAnimations.PlayRun(false);
+            _playerAnimations.Run(false);
         }
     }
     

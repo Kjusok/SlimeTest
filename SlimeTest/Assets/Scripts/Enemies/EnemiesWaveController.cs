@@ -61,9 +61,10 @@ public class EnemiesWaveController : MonoBehaviour
             var enemy = Instantiate(_typeOfEnemy, new Vector3(_player.transform.position.x - Random.Range(OffsetMinX,OffsetMaxX),
                 _offsetY,
                 Random.Range(OffsetMinZ,OffsetMaxZ)),
-                Quaternion.identity);
+                Quaternion.identity).GetComponent<Enemy>();
             
-            enemy.GetComponent<Enemy>().Initialize(_wallet, this);
+            enemy.Dead += RemoveEnemyFromList;
+            
             enemy.GetComponent<EnemiesMovementController>().Initialize(_player);
             enemy.GetComponent<EnemyAttack>().Initialize(_player);
             enemy.transform.SetParent(transform, false);
@@ -72,8 +73,12 @@ public class EnemiesWaveController : MonoBehaviour
         }
     }
 
-    public void RemoveEnemyFromList(Enemy enemy)
+    private void RemoveEnemyFromList(Enemy enemy)
     {
+        enemy.Dead -= RemoveEnemyFromList;
+        
+        _wallet.Coins += enemy.Score;
+
         _enemies.Remove(enemy);
     }
 

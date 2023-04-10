@@ -1,19 +1,17 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
 /// 1) Активация кнопок в игре
 /// 2) увеличивать различные характериски игрока после нажатия кнопки (повышение жизни, пополнение здоровья, увилечение урона, увелечение скорости атаки)
 /// </summary>
-public class ButtonController : MonoBehaviour
+public class UIController : MonoBehaviour
 {
     private const int PriceForCharacteristics = 25;
     private const int PriceForRecoverHealth = 10;
 
     [SerializeField] private SceneController _sceneController;
     [SerializeField] private GameStatesController _gameStatesController;
-    [SerializeField] private StatsController _statsController;
     [SerializeField] private Wallet _wallet;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private GameObject _startButton;
@@ -21,16 +19,30 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private Button _upHealthButton;
     [SerializeField] private Button _upSpeedAttackButton;
     [SerializeField] private Button _recoveryHealthButton;
-
-
-    private void Update()
+    [SerializeField] private Player _player;
+    
+   
+    private void Awake()
     {
-        CheckAvailableButtons();
+        _upDamageButton.interactable = false;
+        _upHealthButton.interactable = false;
+        _upSpeedAttackButton.interactable = false;
+        _recoveryHealthButton.interactable = false;
     }
 
-    private void CheckAvailableButtons()
+    protected void OnEnable()
     {
-        if (_wallet.WalletСontent >= PriceForCharacteristics)
+        _wallet.Changed += OnChangeWallet;
+    }
+
+    protected void OnDisable()
+    {
+        _wallet.Changed -= OnChangeWallet;
+    }
+
+    private void OnChangeWallet(int currentWalletValue)
+    {
+        if (currentWalletValue >= PriceForCharacteristics)
         {
             _upDamageButton.interactable = true;
             _upHealthButton.interactable = true;
@@ -43,7 +55,7 @@ public class ButtonController : MonoBehaviour
             _upSpeedAttackButton.interactable = false;
         }
 
-        if (_wallet.WalletСontent >= PriceForRecoverHealth)
+        if (currentWalletValue >= PriceForRecoverHealth)
         {
             _recoveryHealthButton.interactable = true;
         }
@@ -60,44 +72,44 @@ public class ButtonController : MonoBehaviour
     
     public void UpDamageButton()
     {
-        if (_wallet.WalletСontent >= PriceForCharacteristics)
+        if (_wallet.Coins >= PriceForCharacteristics)
         {
-            _statsController.UpDamage();
-            _wallet.RemoveFromScore(PriceForCharacteristics);
+            _player.StatsController.UpDamage();
+            _wallet.Coins -= PriceForCharacteristics;
         }
     }
 
     public void UpSpeedAttackButton()
     {
-        if (_wallet.WalletСontent >= PriceForCharacteristics)
+        if (_wallet.Coins >= PriceForCharacteristics)
         {
-            _statsController.UpSpeedAttack();
-            _wallet.RemoveFromScore(PriceForCharacteristics);
+            _player.StatsController.UpSpeedAttack();
+            _wallet.Coins -= PriceForCharacteristics;
         }
     }
 
     public void UpHealthButton()
     {
-        if (_wallet.WalletСontent >= PriceForCharacteristics)
+        if (_wallet.Coins >= PriceForCharacteristics)
         {
-            _wallet.RemoveFromScore(PriceForCharacteristics);
-            _statsController.UpHealth();
+            _wallet.Coins -= PriceForCharacteristics;
+            _player.StatsController.UpHealth();
         }
     }
 
     public void RecoveryHealthButton()
     {
-        if (_wallet.WalletСontent >= PriceForRecoverHealth)
+        if (_wallet.Coins >= PriceForRecoverHealth)
         {
-            _statsController.HealthRecovery();
-            _wallet.RemoveFromScore(PriceForRecoverHealth);
+            _player.StatsController.HealthRecovery();
+            _wallet.Coins -= PriceForRecoverHealth;
         }
     }
 
     public void PressStartButton()
     {
         _playerMovement.StartMovement();
-        _gameStatesController.GameStartedState(true);
+        _gameStatesController.GameStart();
         _startButton.SetActive(false);
     }
 }

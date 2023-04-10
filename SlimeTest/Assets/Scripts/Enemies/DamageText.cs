@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(IDamageble))]
 public class DamageText : MonoBehaviour
 {
-    [FormerlySerializedAs("_prefabPopUpTextDamage")] [SerializeField] private TextMovementToUp _prefabTextMovementToUpDamage;
+    [SerializeField] private TextMovementToUp _prefabTextMovementToUpDamage;
     [SerializeField] private Vector3 _textOffset = new Vector3(0.2f, 0.5f);
     [SerializeField] private Canvas _canvas;
 

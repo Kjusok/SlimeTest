@@ -11,7 +11,7 @@ public class ContactWithPlayer : MonoBehaviour
 
         if (player)
         {
-            _enemy.AttackState(true);
+            _enemy.IsAttack = true;
             _enemiesAnimations.Attack(true);
         }
     }
@@ -22,7 +22,7 @@ public class ContactWithPlayer : MonoBehaviour
 
         if (player)
         {
-            _enemy.AttackState(false);
+            _enemy.IsAttack = false;
             _enemiesAnimations.Attack(false);
         }
     }

@@ -16,7 +16,7 @@ public class PlayerAnimations : MonoBehaviour
         _animator.SetFloat(_attackSpeedStateName, speed);
     }
 
-    public void PlayRun(bool flag)
+    public void Run(bool flag)
     {
         _animator.SetBool(_runStateName, flag);
     }

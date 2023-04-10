@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
+
 /// <summary>
 /// 1) Создает снаряды
 /// </summary>
 public class SpawnProjectiles : MonoBehaviour
 {
-    [SerializeField] private FinderClosestEnemy _finderClosestEnemy; 
+    [SerializeField] private ClosestEnemySearch _closestEnemySearch;
     [SerializeField] private Projectile _projectilePrefab;
-    [SerializeField] private StatsController _statsController;
-
+    [SerializeField] private Player _player;
     
     public void SpawnProjectile()
     {
-        if (_finderClosestEnemy.CurrentEnemy != null)
+        if (_closestEnemySearch.CurrentEnemy != null)
         {
             var projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
-            projectile.Launch(_finderClosestEnemy.CurrentEnemy.transform, _statsController.Damage);
+            projectile.Launch(_closestEnemySearch.CurrentEnemy.transform, _player.StatsController.Damage);
         }
     }
 }

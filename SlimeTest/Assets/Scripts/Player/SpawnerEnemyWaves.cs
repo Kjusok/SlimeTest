@@ -7,7 +7,7 @@ public class SpawnerEnemyWaves : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var trigger = other.GetComponent<FlagToActivateEnemies>();
+        var trigger = other.GetComponent<TagToActivateEnemies>();
         
         if (trigger)
         {

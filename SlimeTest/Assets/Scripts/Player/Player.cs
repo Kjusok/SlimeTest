@@ -8,23 +8,28 @@ public class Player : MonoBehaviour, IDamageble
 {
     [SerializeField] private PlayerAnimations _playerAnimations;
     [SerializeField] private GameStatesController _gameStatesController;
-    [SerializeField] private StatsController _statsController;
     
+    public StatsController StatsController { get; private set; }
     public bool IsDead { get; private set; }
     
     public event Action<float> GotHit;
-
+    
+    
+    private void Awake()
+    {
+        StatsController = new StatsController();
+    }
 
     public void TakeDamage(float damage)
     {
-        _statsController.DecreaseHealth(damage);
+        StatsController.DecreaseHealth(damage);
         _playerAnimations.Hurt();
 
         GotHit?.Invoke(damage);
         
-        if(_statsController.Health <= 0)
+        if(StatsController.Health <= 0)
         {
-            _gameStatesController.AwakePanelYouDied();
+            _gameStatesController.PlayerDead();
             _playerAnimations.Death();
             IsDead = true;
         }

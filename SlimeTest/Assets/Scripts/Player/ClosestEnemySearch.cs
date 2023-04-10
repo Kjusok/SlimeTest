@@ -2,7 +2,7 @@
 /// <summary>
 /// 1) Находит близжайшего врага
 /// </summary>
-public class FinderClosestEnemy : MonoBehaviour
+public class ClosestEnemySearch : MonoBehaviour
 {
     [SerializeField] private EnemiesWaveController _enemiesWaveController;
     
@@ -11,10 +11,10 @@ public class FinderClosestEnemy : MonoBehaviour
     
     private void Update()
     {
-        FindClosestEnemy();
+        SearchClosestEnemy();
     }
     
-    private Enemy FindClosestEnemy()
+    private Enemy SearchClosestEnemy()
     {
         var distance = Mathf.Infinity;
         Vector3 position = transform.position;

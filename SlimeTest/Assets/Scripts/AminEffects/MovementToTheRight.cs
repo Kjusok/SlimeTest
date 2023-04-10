@@ -5,14 +5,14 @@ using UnityEngine;
 /// </summary>
 public class MovementToTheRight : MonoBehaviour
 {
-    [SerializeField] private float _minValue = 0.7f;
-    [SerializeField] private float _maxValue = 1f;
+    [SerializeField] private float _minSpeed = 0.7f;
+    [SerializeField] private float _maxSpeed = 1f;
     
     private float _speed;
 
     private void Awake()
     {
-        _speed = Random.Range(_minValue, _maxValue);
+        _speed = Random.Range(_minSpeed, _maxSpeed);
     }
 
     private void Update()
