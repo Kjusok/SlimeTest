@@ -6,7 +6,6 @@ public class EnemiesMovementController : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 1;
     [SerializeField] private float _movementSpeed;
     [SerializeField] private EnemiesAnimations _enemiesAnimations;
-    [SerializeField] private Player _target;
     [SerializeField] private Enemy _enemy;
     
     private void Update()
@@ -22,7 +21,7 @@ public class EnemiesMovementController : MonoBehaviour
             return;
         }
 
-        Vector3 direction = _target.transform.position - transform.position;
+        Vector3 direction = _enemy.Player.transform.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _rotationSpeed * Time.deltaTime);
     }
@@ -37,10 +36,5 @@ public class EnemiesMovementController : MonoBehaviour
 
         _enemiesAnimations.Walk(true);
         transform.Translate(Vector3.forward * _movementSpeed * Time.deltaTime);
-    }
-    
-    public void Initialize(Player target)
-    {
-        _target = target;
     }
 }

@@ -1,42 +1,54 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Serialization;
+
 /// 1) Контроль состояния игры (Победа, поражение, игра начата, игра на паузе и т. д.)
 
 public class GameStatesController : MonoBehaviour
 {
-    [SerializeField] private EnemiesWaveController _enemiesWaveController;
+    [SerializeField] private EnemiesWaveSpawner _enemiesWaveSpawner;
     [SerializeField] private GameObject _panelYouDied;
     [SerializeField] private GameObject _restartButton;
     [SerializeField] private GameObject _panelYouWin;
 
-    
-    private bool _isPaused;
-    
-    public bool GameIsStarted { get; private set; }
 
-    private void Update()
+    private void Start()
     {
-        if (_enemiesWaveController.CounterWaves == _enemiesWaveController.LastWaves &&
-            _enemiesWaveController.Enemies.Count == 0)
-        {
-            FinishGame();
-        }
+        _enemiesWaveSpawner.WavesFinished += OnWavesFinished;
     }
+    // private bool GameIsStarted;
 
-    public void GameStart()
-    {
-        GameIsStarted = true;
-    }
+   private void OnWavesFinished()
+   {
+       FinishGame();
+   }
+
+   private void OnDestroy()
+   {
+       _enemiesWaveSpawner.WavesFinished -= OnWavesFinished;
+   }
+   // private void Update()
+    // {
+    //     if (_enemiesWaveSpawner.CounterWaves == _enemiesWaveSpawner.LastWaves &&
+    //         _enemiesWaveSpawner.Enemies.Count == 0)
+    //     {
+    //         FinishGame();
+    //     }
+    // }
+
+    // public void GameStart()
+    // {
+    //     GameIsStarted = true;
+    // }
 
     public void PlayerDead()
     {
-        _isPaused = true;
         _panelYouDied.SetActive(true);
         _restartButton.SetActive(true);
     }
 
     private void FinishGame()
     {
-        _isPaused = true;
         _restartButton.SetActive(true);
         _panelYouWin.SetActive(true);
     }

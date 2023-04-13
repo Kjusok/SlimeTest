@@ -10,7 +10,7 @@ public class UIStats : MonoBehaviour
     [SerializeField] private Image _heathBar;
     [SerializeField] private Player _player;
 
-   //Проблема что работает только при старте, при Enable выдает NullReferenceException
+    
     private void Start()
     {
         _player.StatsController.DamageChanged += DamageChangedHandler;
@@ -19,7 +19,7 @@ public class UIStats : MonoBehaviour
         _player.StatsController.MaxHealthChanged += MaxHealthChangedHandler;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         _player.StatsController.DamageChanged -= DamageChangedHandler;
         _player.StatsController.SpeedAttackChanged -= SpeedAttackChangedHandler;

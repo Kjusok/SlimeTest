@@ -8026,8 +8026,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -296.79553}
-  m_SizeDelta: {x: 450, y: 342.5243}
+  m_AnchoredPosition: {x: 0.00090432, y: -291.9401}
+  m_SizeDelta: {x: 454.07, y: 342.0101}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &222316866
 MonoBehaviour:
@@ -10857,6 +10857,7 @@ GameObject:
   - component: {fileID: 304012680}
   - component: {fileID: 304012679}
   - component: {fileID: 304012678}
+  - component: {fileID: 304012681}
   m_Layer: 5
   m_Name: Wallet
   m_TagString: Untagged
@@ -10925,6 +10926,20 @@ RectTransform:
   m_AnchoredPosition: {x: -0.9999997, y: 413.0003}
   m_SizeDelta: {x: 164.5157, y: -752.3351}
   m_Pivot: {x: 0.5, y: 0.4999994}
+--- !u!114 &304012681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304012677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0471f94d48d04a8e810c4c4abd38108a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _walletText: {fileID: 304012678}
+  _player: {fileID: 1367570701}
 --- !u!1 &308384176
 GameObject:
   m_ObjectHideFlags: 0
@@ -17997,7 +18012,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 1367570701}
   _enemies: []
-  _wallet: {fileID: 770243077}
   _enemyPrefab: {fileID: 7804250762050683685, guid: ab9070ad0f5fb6647ae5e863b21aff21, type: 3}
   _bossPrefab: {fileID: 2391293987944008764, guid: 55d50ea2be527e04d97165a4397bc92e, type: 3}
 --- !u!4 &499309586
@@ -20371,7 +20385,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
     m_FontSize: 25
-    m_FontStyle: 0
+    m_FontStyle: 2
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
@@ -27904,7 +27918,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -27951,9 +27965,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a044be6e9f03914d988d44dbaacda8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneController: {fileID: 770243079}
+  _sceneLoader: {fileID: 770243079}
   _gameStatesController: {fileID: 770243078}
-  _wallet: {fileID: 770243077}
   _playerMovement: {fileID: 1275183835}
   _startButton: {fileID: 143216489}
   _upDamageButton: {fileID: 2023441866}
@@ -27973,7 +27986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8432d8cf9fac4f1b958c79a74b27c3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemiesWaveController: {fileID: 499309585}
+  _enemiesWaveSpawner: {fileID: 499309585}
   _playerMovementr: {fileID: 1275183835}
 --- !u!114 &770243077
 MonoBehaviour:
@@ -27988,6 +28001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _walletText: {fileID: 304012678}
+  _coins: 0
 --- !u!114 &770243078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28000,7 +28014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f79c997cb04a13a87539721baa7f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemiesWaveController: {fileID: 499309585}
+  _enemiesWaveSpawner: {fileID: 499309585}
   _panelYouDied: {fileID: 456149388}
   _restartButton: {fileID: 175417877}
   _panelYouWin: {fileID: 2011513886}
@@ -39462,6 +39476,7 @@ GameObject:
   - component: {fileID: 1080504570}
   - component: {fileID: 1080504572}
   - component: {fileID: 1080504571}
+  - component: {fileID: 1080504573}
   m_Layer: 5
   m_Name: Text (3)
   m_TagString: Untagged
@@ -39530,6 +39545,47 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1080504569}
   m_CullTransparentMesh: 1
+--- !u!23 &1080504573
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080504569}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1094057500
 GameObject:
   m_ObjectHideFlags: 0
@@ -46977,7 +47033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b655a5b593d84f259d9618ca67a0aab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemiesWaveController: {fileID: 499309585}
+  _enemiesWaveSpawner: {fileID: 499309585}
 --- !u!114 &1275183839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47005,7 +47061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7586efb62414ad885d94436098c36c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemiesWaveController: {fileID: 499309585}
+  _enemiesWaveSpawner: {fileID: 499309585}
 --- !u!1 &1275749781
 GameObject:
   m_ObjectHideFlags: 0
@@ -76390,6 +76446,10 @@ PrefabInstance:
       propertyPath: _spawnProjectiles
       value: 
       objectReference: {fileID: 1275183839}
+    - target: {fileID: 7699735691320756351, guid: ca4d255702a3174458e37dc571c2470e, type: 3}
+      propertyPath: _enemiesWaveSpawner
+      value: 
+      objectReference: {fileID: 499309585}
     - target: {fileID: 7699735691320756351, guid: ca4d255702a3174458e37dc571c2470e, type: 3}
       propertyPath: _enemiesWaveController
       value: 

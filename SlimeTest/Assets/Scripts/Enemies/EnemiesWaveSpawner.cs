@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -7,7 +10,7 @@ using Random = UnityEngine.Random;
 /// 2) Считает волны
 /// 3) Выбирает тип врага
 /// </summary>
-public class EnemiesWaveController : MonoBehaviour
+public class EnemiesWaveSpawner : MonoBehaviour
 {
     private const int ManValueEnemies = 3;
     private const float OffsetY = 0.15f;
@@ -18,7 +21,7 @@ public class EnemiesWaveController : MonoBehaviour
     
     [SerializeField] private Player _player;
     [SerializeField] private List<Enemy> _enemies;
-    [SerializeField] private Wallet _wallet;
+    //[FormerlySerializedAs("_wallet")] [SerializeField] private UIController _uiController;
     [SerializeField] private Enemy _enemyPrefab;
     [SerializeField] private Enemy _bossPrefab;
 
@@ -31,9 +34,11 @@ public class EnemiesWaveController : MonoBehaviour
     public int CounterWaves { get; private set; }
     public bool IsAllEnemiesInWaveDead { get; private set; } = true;
     public List<Enemy> Enemies => _enemies;
-
     
-    private void CheckCharacteristicsEnemy()
+    public event Action WavesFinished; 
+
+
+    private void UpdateCharacteristicsEnemy()
     {
         if (CounterWaves == LastWaves)
         {
@@ -54,7 +59,7 @@ public class EnemiesWaveController : MonoBehaviour
         IsAllEnemiesInWaveDead = false;
         CounterWaves++;
 
-        CheckCharacteristicsEnemy();
+        UpdateCharacteristicsEnemy();
         
         for (int i = 0; i <= _enemiesInWave; i++)
         {
@@ -64,9 +69,9 @@ public class EnemiesWaveController : MonoBehaviour
                 Quaternion.identity).GetComponent<Enemy>();
             
             enemy.Dead += RemoveEnemyFromList;
+
+            enemy.Initialize(_player);
             
-            enemy.GetComponent<EnemiesMovementController>().Initialize(_player);
-            enemy.GetComponent<EnemyAttack>().Initialize(_player);
             enemy.transform.SetParent(transform, false);
             
             _enemies.Add(enemy);
@@ -77,9 +82,14 @@ public class EnemiesWaveController : MonoBehaviour
     {
         enemy.Dead -= RemoveEnemyFromList;
         
-        _wallet.Coins += enemy.Score;
+        _player.Wallet.Coins += enemy.Score;
 
         _enemies.Remove(enemy);
+
+        if (!_enemies.Any() && CounterWaves == LastWaves)
+        {
+            WavesFinished?.Invoke();
+        }
     }
 
     public void EnemiesInWaveDead()

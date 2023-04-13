@@ -8,7 +8,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cafb29d5233847fbb4edcf8d7c32b1e3299c90/d3/d976dcda/Action`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy/Enemy.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Text.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -87,7 +89,8 @@
       <workItem from="1679241248425" duration="16049000" />
       <workItem from="1679513443159" duration="25341000" />
       <workItem from="1679836274310" duration="16384000" />
-      <workItem from="1681043644311" duration="24232000" />
+      <workItem from="1681043644311" duration="26397000" />
+      <workItem from="1681321576106" duration="10113000" />
     </task>
     <servers />
   </component>

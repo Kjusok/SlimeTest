@@ -9,6 +9,7 @@ public class Player : MonoBehaviour, IDamageble
     [SerializeField] private PlayerAnimations _playerAnimations;
     [SerializeField] private GameStatesController _gameStatesController;
     
+    public Wallet Wallet { get; private set; }
     public StatsController StatsController { get; private set; }
     public bool IsDead { get; private set; }
     
@@ -16,7 +17,9 @@ public class Player : MonoBehaviour, IDamageble
     
     
     private void Awake()
-    {
+    {       
+        Wallet = new Wallet();
+
         StatsController = new StatsController();
     }
 

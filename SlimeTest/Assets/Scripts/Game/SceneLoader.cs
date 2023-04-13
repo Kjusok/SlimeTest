@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 /// 1) Запустить нужную сцену
 
-public class SceneController : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
     public void LoadMainScene()
     {

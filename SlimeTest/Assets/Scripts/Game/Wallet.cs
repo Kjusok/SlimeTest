@@ -1,12 +1,9 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using System;using System.Runtime.InteropServices;
+
 /// 1) Добовлять и убирать очки (монетки) из кошелька
 
-public class Wallet : MonoBehaviour
+public class Wallet
 {
-    [SerializeField] private Text _walletText;
-
     private int _coins;
 
     public int Coins
@@ -23,7 +20,7 @@ public class Wallet : MonoBehaviour
     
     private void ChangeScore()
     {
-        _walletText.text = string.Format("{0:D6}", Coins);
+        //_walletText.text = string.Format("{0:D6}", Coins);
         
         Changed?.Invoke(Coins);
     }

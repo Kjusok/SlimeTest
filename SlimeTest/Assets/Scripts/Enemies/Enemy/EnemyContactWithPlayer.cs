@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ContactWithPlayer : MonoBehaviour
+public class EnemyContactWithPlayer : MonoBehaviour
 {
     [SerializeField] private Enemy _enemy;
     [SerializeField] private EnemiesAnimations _enemiesAnimations;

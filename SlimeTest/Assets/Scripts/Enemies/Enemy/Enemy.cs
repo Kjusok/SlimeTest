@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour, IDamageble
 
     private float _heath;
 
+
+    public Player Player { get; private set; }
     public int Score { get; private set; }
     public bool IsDead { get; private set; }
     public bool IsAttack{ get; set; }
@@ -51,5 +53,10 @@ public class Enemy : MonoBehaviour, IDamageble
     
             Instantiate(_deathPrefab, transform.position, Quaternion.identity);
         }
+    }
+
+    public void Initialize(Player player)
+    {
+        Player = player;
     }
 }

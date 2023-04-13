@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
+
 /// 1) Косаться трригера (Что бы создать волну врагов)
 
 public class SpawnerEnemyWaves : MonoBehaviour
 {
-    [SerializeField] private EnemiesWaveController _enemiesWaveController;
+    [FormerlySerializedAs("_enemiesWaveController")] [SerializeField] private EnemiesWaveSpawner _enemiesWaveSpawner;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -11,7 +13,7 @@ public class SpawnerEnemyWaves : MonoBehaviour
         
         if (trigger)
         {
-            _enemiesWaveController.SpawnEnemiesWave();
+            _enemiesWaveSpawner.SpawnEnemiesWave();
         }
     }
 }

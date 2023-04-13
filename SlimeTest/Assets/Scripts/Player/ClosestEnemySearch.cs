@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
+
 /// <summary>
 /// 1) Находит близжайшего врага
 /// </summary>
 public class ClosestEnemySearch : MonoBehaviour
 {
-    [SerializeField] private EnemiesWaveController _enemiesWaveController;
+    [FormerlySerializedAs("_enemiesWaveController")] [SerializeField] private EnemiesWaveSpawner _enemiesWaveSpawner;
     
     public Enemy CurrentEnemy{ get; private set; }
     
@@ -19,7 +21,7 @@ public class ClosestEnemySearch : MonoBehaviour
         var distance = Mathf.Infinity;
         Vector3 position = transform.position;
 
-        foreach (Enemy enemy in _enemiesWaveController.Enemies)
+        foreach (Enemy enemy in _enemiesWaveSpawner.Enemies)
         {
             if (enemy.IsDead)
             {

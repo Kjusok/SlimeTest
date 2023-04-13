@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -10,9 +11,7 @@ public class UIController : MonoBehaviour
     private const int PriceForCharacteristics = 25;
     private const int PriceForRecoverHealth = 10;
 
-    [SerializeField] private SceneController _sceneController;
-    [SerializeField] private GameStatesController _gameStatesController;
-    [SerializeField] private Wallet _wallet;
+    [FormerlySerializedAs("_sceneController")] [SerializeField] private SceneLoader _sceneLoader;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private GameObject _startButton;
     [SerializeField] private Button _upDamageButton;
@@ -20,7 +19,6 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button _upSpeedAttackButton;
     [SerializeField] private Button _recoveryHealthButton;
     [SerializeField] private Player _player;
-    
    
     private void Awake()
     {
@@ -30,14 +28,14 @@ public class UIController : MonoBehaviour
         _recoveryHealthButton.interactable = false;
     }
 
-    protected void OnEnable()
+    protected void Start()
     {
-        _wallet.Changed += OnChangeWallet;
+        _player.Wallet.Changed += OnChangeWallet;
     }
 
-    protected void OnDisable()
+    protected void OnDestroy()
     {
-        _wallet.Changed -= OnChangeWallet;
+        _player.Wallet.Changed -= OnChangeWallet;
     }
 
     private void OnChangeWallet(int currentWalletValue)
@@ -67,49 +65,49 @@ public class UIController : MonoBehaviour
     
     public void RestartButton()
     {
-        _sceneController.LoadMainScene();
+        _sceneLoader.LoadMainScene();
     }
     
     public void UpDamageButton()
     {
-        if (_wallet.Coins >= PriceForCharacteristics)
+        if (_player.Wallet.Coins >= PriceForCharacteristics)
         {
             _player.StatsController.UpDamage();
-            _wallet.Coins -= PriceForCharacteristics;
+            _player.Wallet.Coins -= PriceForCharacteristics;
         }
     }
 
     public void UpSpeedAttackButton()
     {
-        if (_wallet.Coins >= PriceForCharacteristics)
+        if (_player.Wallet.Coins >= PriceForCharacteristics)
         {
             _player.StatsController.UpSpeedAttack();
-            _wallet.Coins -= PriceForCharacteristics;
+            _player.Wallet.Coins -= PriceForCharacteristics;
         }
     }
 
     public void UpHealthButton()
     {
-        if (_wallet.Coins >= PriceForCharacteristics)
+        if (_player.Wallet.Coins >= PriceForCharacteristics)
         {
-            _wallet.Coins -= PriceForCharacteristics;
+            _player.Wallet.Coins -= PriceForCharacteristics;
             _player.StatsController.UpHealth();
         }
     }
 
     public void RecoveryHealthButton()
     {
-        if (_wallet.Coins >= PriceForRecoverHealth)
+        if (_player.Wallet.Coins >= PriceForRecoverHealth)
         {
             _player.StatsController.HealthRecovery();
-            _wallet.Coins -= PriceForRecoverHealth;
+            _player.Wallet.Coins -= PriceForRecoverHealth;
         }
     }
 
     public void PressStartButton()
     {
         _playerMovement.StartMovement();
-        _gameStatesController.GameStart();
+        //_gameStatesController.GameStart();
         _startButton.SetActive(false);
     }
 }
