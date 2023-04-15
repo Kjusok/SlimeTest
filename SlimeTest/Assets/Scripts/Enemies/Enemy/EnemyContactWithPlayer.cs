@@ -5,6 +5,7 @@ public class EnemyContactWithPlayer : MonoBehaviour
     [SerializeField] private Enemy _enemy;
     [SerializeField] private EnemiesAnimations _enemiesAnimations;
     
+    
     private void OnTriggerEnter(Collider other)
     {
         var player = other.GetComponent<Player>();

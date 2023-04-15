@@ -1,8 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// 1) Передвижение объекта вправо
-/// </summary>
 public class MovementToTheRight : MonoBehaviour
 {
     [SerializeField] private float _minSpeed = 0.7f;

@@ -1,9 +1,5 @@
-using System;
 using UnityEngine;
 
-/// <summary>
-///  Адаптирует анимации
-/// </summary>
 [RequireComponent(typeof(Animator))]
 public class EnemiesAnimations : MonoBehaviour
 {

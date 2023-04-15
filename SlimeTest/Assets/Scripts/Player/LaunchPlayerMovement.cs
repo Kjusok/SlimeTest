@@ -1,20 +1,22 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
-/// 1) Запускает движение игрока
 public class LaunchPlayerMovement : MonoBehaviour
 {
-    [FormerlySerializedAs("_enemiesWaveController")] [SerializeField] private EnemiesWaveSpawner _enemiesWaveSpawner;
-    [SerializeField] private PlayerMovement _playerMovementr;
+    [SerializeField] private EnemiesWaveSpawner _enemiesWaveSpawner;
+    [SerializeField] private PlayerMovement _playerMovement;
 
-    private void Update()
+    private void Start()
     {
-        if (_enemiesWaveSpawner.Enemies.Count == 0 &&
-            !_enemiesWaveSpawner.IsAllEnemiesInWaveDead &&
-            _enemiesWaveSpawner.CounterWaves < _enemiesWaveSpawner.LastWaves)
-        {
-            _playerMovementr.StartMovement();
-            _enemiesWaveSpawner.EnemiesInWaveDead();
-        }
+        _enemiesWaveSpawner.LaunchPlayer += LaunchPlayer;
+    }
+
+    private void OnDestroy()
+    {
+        _enemiesWaveSpawner.LaunchPlayer -= LaunchPlayer;
+    }
+    
+    private void LaunchPlayer()
+    {
+        _playerMovement.StartMovement();
     }
 }

@@ -6,6 +6,7 @@ public class UIWallet : MonoBehaviour
     [SerializeField] private Text _walletText;
     [SerializeField] private Player _player;
 
+    
     private void Start()
     {
         _player.Wallet.Changed += ChangedScoreHandler;

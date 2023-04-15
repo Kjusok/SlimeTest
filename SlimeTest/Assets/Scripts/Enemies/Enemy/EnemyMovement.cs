@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-/// 3) Перемещаться к цели (движение и вращение)
 
-public class EnemiesMovementController : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float _rotationSpeed = 1;
     [SerializeField] private float _movementSpeed;
     [SerializeField] private EnemiesAnimations _enemiesAnimations;
     [SerializeField] private Enemy _enemy;
+    
     
     private void Update()
     {

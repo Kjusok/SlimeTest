@@ -1,6 +1,4 @@
-﻿using System;using System.Runtime.InteropServices;
-
-/// 1) Добовлять и убирать очки (монетки) из кошелька
+﻿using System;
 
 public class Wallet
 {
@@ -15,13 +13,12 @@ public class Wallet
             ChangeScore();
         }
     }
+    
     public event Action<int> Changed;
 
     
     private void ChangeScore()
     {
-        //_walletText.text = string.Format("{0:D6}", Coins);
-        
         Changed?.Invoke(Coins);
     }
 }

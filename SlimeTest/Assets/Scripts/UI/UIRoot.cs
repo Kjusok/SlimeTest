@@ -1,17 +1,13 @@
+using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-/// <summary>
-/// 1) Активация кнопок в игре
-/// 2) увеличивать различные характериски игрока после нажатия кнопки (повышение жизни, пополнение здоровья, увилечение урона, увелечение скорости атаки)
-/// </summary>
-public class UIController : MonoBehaviour
+public class UIRoot : MonoBehaviour
 {
     private const int PriceForCharacteristics = 25;
     private const int PriceForRecoverHealth = 10;
 
-    [FormerlySerializedAs("_sceneController")] [SerializeField] private SceneLoader _sceneLoader;
+    [SerializeField] private SceneLoader _sceneLoader;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private GameObject _startButton;
     [SerializeField] private Button _upDamageButton;
@@ -20,6 +16,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button _recoveryHealthButton;
     [SerializeField] private Player _player;
    
+    
     private void Awake()
     {
         _upDamageButton.interactable = false;
@@ -63,6 +60,15 @@ public class UIController : MonoBehaviour
         }
     }
     
+    private void TryBuyUpgrade(int price, Action upgradeHandler)
+    {
+        if (_player.Wallet.Coins >= price)
+        {
+            _player.Wallet.Coins -= price;
+            upgradeHandler();
+        }
+    }
+    
     public void RestartButton()
     {
         _sceneLoader.LoadMainScene();
@@ -70,44 +76,27 @@ public class UIController : MonoBehaviour
     
     public void UpDamageButton()
     {
-        if (_player.Wallet.Coins >= PriceForCharacteristics)
-        {
-            _player.StatsController.UpDamage();
-            _player.Wallet.Coins -= PriceForCharacteristics;
-        }
+        TryBuyUpgrade(PriceForCharacteristics, _player.StatsController.UpDamage);
     }
 
     public void UpSpeedAttackButton()
     {
-        if (_player.Wallet.Coins >= PriceForCharacteristics)
-        {
-            _player.StatsController.UpSpeedAttack();
-            _player.Wallet.Coins -= PriceForCharacteristics;
-        }
+        TryBuyUpgrade(PriceForCharacteristics, _player.StatsController.UpSpeedAttack);
     }
 
     public void UpHealthButton()
     {
-        if (_player.Wallet.Coins >= PriceForCharacteristics)
-        {
-            _player.Wallet.Coins -= PriceForCharacteristics;
-            _player.StatsController.UpHealth();
-        }
+        TryBuyUpgrade(PriceForCharacteristics, _player.StatsController.UpHealth);
     }
 
     public void RecoveryHealthButton()
     {
-        if (_player.Wallet.Coins >= PriceForRecoverHealth)
-        {
-            _player.StatsController.HealthRecovery();
-            _player.Wallet.Coins -= PriceForRecoverHealth;
-        }
+        TryBuyUpgrade(PriceForRecoverHealth, _player.StatsController.HealthRecovery);
     }
 
     public void PressStartButton()
     {
         _playerMovement.StartMovement();
-        //_gameStatesController.GameStart();
         _startButton.SetActive(false);
     }
 }

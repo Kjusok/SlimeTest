@@ -1,10 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-/// <summary>
-/// 1) Обнавляет отображение жизнец
-/// 2) Получать урон
-/// </summary>
 
 public class Enemy : MonoBehaviour, IDamageble
 {
@@ -16,7 +12,6 @@ public class Enemy : MonoBehaviour, IDamageble
     [SerializeField] private float _maxHealth = 100;
 
     private float _heath;
-
 
     public Player Player { get; private set; }
     public int Score { get; private set; }

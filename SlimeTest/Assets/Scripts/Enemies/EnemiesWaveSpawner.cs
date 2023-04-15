@@ -2,14 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-/// <summary>
-/// 1) Создает волны врагов
-/// 2) Считает волны
-/// 3) Выбирает тип врага
-/// </summary>
 public class EnemiesWaveSpawner : MonoBehaviour
 {
     private const int ManValueEnemies = 3;
@@ -18,29 +12,28 @@ public class EnemiesWaveSpawner : MonoBehaviour
     private const float OffsetMaxX= 44.5f;
     private const float OffsetMinZ= -3f;
     private const float OffsetMaxZ= 5f;
-    
+    private const int LastWaves  = 5;
+
     [SerializeField] private Player _player;
     [SerializeField] private List<Enemy> _enemies;
-    //[FormerlySerializedAs("_wallet")] [SerializeField] private UIController _uiController;
     [SerializeField] private Enemy _enemyPrefab;
     [SerializeField] private Enemy _bossPrefab;
 
     private int _enemiesInWave;
     private Enemy _typeOfEnemy;
     private float _offsetY;
-
-    public readonly int LastWaves  = 5;
-
-    public int CounterWaves { get; private set; }
-    public bool IsAllEnemiesInWaveDead { get; private set; } = true;
+    private int _counterWaves;
+    private bool _isAllEnemiesInWaveDead = true;
+    
     public List<Enemy> Enemies => _enemies;
     
-    public event Action WavesFinished; 
+    public event Action WavesFinished;
+    public event Action LaunchPlayer;
 
 
     private void UpdateCharacteristicsEnemy()
     {
-        if (CounterWaves == LastWaves)
+        if (_counterWaves == LastWaves)
         {
             _enemiesInWave = 0;
             _typeOfEnemy = _bossPrefab;
@@ -56,14 +49,15 @@ public class EnemiesWaveSpawner : MonoBehaviour
     
     public void SpawnEnemiesWave()
     {
-        IsAllEnemiesInWaveDead = false;
-        CounterWaves++;
+        _isAllEnemiesInWaveDead = false;
+        _counterWaves++;
 
         UpdateCharacteristicsEnemy();
         
         for (int i = 0; i <= _enemiesInWave; i++)
         {
-            var enemy = Instantiate(_typeOfEnemy, new Vector3(_player.transform.position.x - Random.Range(OffsetMinX,OffsetMaxX),
+            var enemy = Instantiate(_typeOfEnemy,
+                new Vector3(_player.transform.position.x - Random.Range(OffsetMinX,OffsetMaxX),
                 _offsetY,
                 Random.Range(OffsetMinZ,OffsetMaxZ)),
                 Quaternion.identity).GetComponent<Enemy>();
@@ -86,15 +80,16 @@ public class EnemiesWaveSpawner : MonoBehaviour
 
         _enemies.Remove(enemy);
 
-        if (!_enemies.Any() && CounterWaves == LastWaves)
+        if (!_enemies.Any() && _counterWaves == LastWaves)
         {
             WavesFinished?.Invoke();
         }
-    }
 
-    public void EnemiesInWaveDead()
-    {
-        IsAllEnemiesInWaveDead = true;
+        if (!_enemies.Any() && _counterWaves < LastWaves && !_isAllEnemiesInWaveDead)
+        {
+            LaunchPlayer?.Invoke();
+            _isAllEnemiesInWaveDead = true;
+        }
     }
 }
 

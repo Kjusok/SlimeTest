@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
-/// <summary>
-/// 1) Отабражает урон ввиде текста над объектом
-/// </summary>
 [RequireComponent(typeof(IDamageble))]
 public class DamageText : MonoBehaviour
 {
@@ -13,6 +9,7 @@ public class DamageText : MonoBehaviour
 
     private IDamageble _damageble;
 
+    
     protected void Awake()
     {
         _damageble = GetComponent<IDamageble>();

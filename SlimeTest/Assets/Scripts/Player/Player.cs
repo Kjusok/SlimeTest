@@ -1,26 +1,37 @@
 using System;
 using UnityEngine;
-/// <summary>
-/// 1) Получать урон
-/// 2) Хранит состояние умер или нет
-/// </summary>
+
 public class Player : MonoBehaviour, IDamageble
 {
     [SerializeField] private PlayerAnimations _playerAnimations;
-    [SerializeField] private GameStatesController _gameStatesController;
     
     public Wallet Wallet { get; private set; }
     public StatsController StatsController { get; private set; }
     public bool IsDead { get; private set; }
     
     public event Action<float> GotHit;
-    
-    
+    public event Action Dead; 
+
+
     private void Awake()
     {       
         Wallet = new Wallet();
-
         StatsController = new StatsController();
+    }
+
+    private void Start()
+    {
+        StatsController.SpeedAttackChanged += OnSpeedAttackChanged;
+    }
+
+    private void OnSpeedAttackChanged(float speedAttack)
+    {
+        _playerAnimations.CreateSpeedAttack(speedAttack);
+    }
+
+    private void OnDestroy()
+    {
+        StatsController.SpeedAttackChanged -= OnSpeedAttackChanged;
     }
 
     public void TakeDamage(float damage)
@@ -32,7 +43,7 @@ public class Player : MonoBehaviour, IDamageble
         
         if(StatsController.Health <= 0)
         {
-            _gameStatesController.PlayerDead();
+            Dead?.Invoke();
             _playerAnimations.Death();
             IsDead = true;
         }

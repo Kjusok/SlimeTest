@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-/// <summary>
-/// Перемещение игрока по игровому полю
-/// </summary>
+
 public class PlayerMovement : MonoBehaviour
 {   
     private const float MovementTime = 2.5f;
@@ -12,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private PlayerAnimations _playerAnimations;
-    [SerializeField] private MovementEffectsController _movementEffectsController;
+    [SerializeField] private EffectsMovement _effectsMovement;
     
     private float _timerForForward;
 
@@ -21,10 +19,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovementController();
+        Moving();
     }
     
-    private void MovementController()
+    private void Moving()
     {
         _rigidbody.AddForce(new Vector3(MovementOffset, 0.0f, 0.0f) * Speed, ForceMode.Impulse);
 
@@ -53,6 +51,6 @@ public class PlayerMovement : MonoBehaviour
     public void StartMovement()
     {
         _timerForForward = MovementTime;
-        _movementEffectsController.StartEffects();
+        _effectsMovement.StartEffects();
     }
 }

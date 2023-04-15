@@ -1,7 +1,5 @@
 using UnityEngine;
-/// <summary>
-/// 1) Уничтожение по таймеру объекта
-/// </summary>
+
 public class DestroyByTime : MonoBehaviour
 {
    [SerializeField] private float _duration;

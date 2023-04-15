@@ -9,6 +9,7 @@ public class EnemyAttack : MonoBehaviour
 
     private float _timerToNextHit;
 
+    
     private void Update()
     {
         if (_timerToNextHit >= 0)

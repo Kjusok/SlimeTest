@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-/// <summary>
-/// Контроллер эффектов при передвижении игрока
-/// </summary>
-public class MovementEffectsController : MonoBehaviour
+
+public class EffectsMovement : MonoBehaviour
 {
     private const float SpawnFlashEffectTime = 0.3f;
     private const float SpawnDustEffectTime = 1f;
