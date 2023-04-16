@@ -1,12 +1,8 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIRoot : MonoBehaviour
 {
-    private const int PriceForCharacteristics = 25;
-    private const int PriceForRecoverHealth = 10;
-
     [SerializeField] private SceneLoader _sceneLoader;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private GameObject _startButton;
@@ -15,7 +11,9 @@ public class UIRoot : MonoBehaviour
     [SerializeField] private Button _upSpeedAttackButton;
     [SerializeField] private Button _recoveryHealthButton;
     [SerializeField] private Player _player;
-   
+
+    private readonly Market _market = new Market();
+    
     
     private void Awake()
     {
@@ -37,7 +35,7 @@ public class UIRoot : MonoBehaviour
 
     private void OnChangeWallet(int currentWalletValue)
     {
-        if (currentWalletValue >= PriceForCharacteristics)
+        if (currentWalletValue >= _market.PriceForCharacteristics)
         {
             _upDamageButton.interactable = true;
             _upHealthButton.interactable = true;
@@ -50,7 +48,7 @@ public class UIRoot : MonoBehaviour
             _upSpeedAttackButton.interactable = false;
         }
 
-        if (currentWalletValue >= PriceForRecoverHealth)
+        if (currentWalletValue >= _market.PriceForRecoverHealth)
         {
             _recoveryHealthButton.interactable = true;
         }
@@ -60,13 +58,28 @@ public class UIRoot : MonoBehaviour
         }
     }
     
-    private void TryBuyUpgrade(int price, Action upgradeHandler)
+    public void UpDamageButton()
     {
-        if (_player.Wallet.Coins >= price)
-        {
-            _player.Wallet.Coins -= price;
-            upgradeHandler();
-        }
+        _market.TryBuyUpgrade(_player.Wallet);
+        _player.StatsController.UpDamage();
+    }
+
+    public void UpSpeedAttackButton()
+    {
+        _market.TryBuyUpgrade(_player.Wallet);
+        _player.StatsController.UpSpeedAttack();
+    }
+    
+    public void UpHealthButton()
+    {
+        _market.TryBuyUpgrade(_player.Wallet);
+        _player.StatsController.UpHealth();
+    }
+    
+    public void RecoveryHealthButton()
+    {
+        _market.TryBuyRecoveryHealth(_player.Wallet);
+        _player.StatsController.HealthRecovery();
     }
     
     public void RestartButton()
@@ -74,26 +87,6 @@ public class UIRoot : MonoBehaviour
         _sceneLoader.LoadMainScene();
     }
     
-    public void UpDamageButton()
-    {
-        TryBuyUpgrade(PriceForCharacteristics, _player.StatsController.UpDamage);
-    }
-
-    public void UpSpeedAttackButton()
-    {
-        TryBuyUpgrade(PriceForCharacteristics, _player.StatsController.UpSpeedAttack);
-    }
-
-    public void UpHealthButton()
-    {
-        TryBuyUpgrade(PriceForCharacteristics, _player.StatsController.UpHealth);
-    }
-
-    public void RecoveryHealthButton()
-    {
-        TryBuyUpgrade(PriceForRecoverHealth, _player.StatsController.HealthRecovery);
-    }
-
     public void PressStartButton()
     {
         _playerMovement.StartMovement();

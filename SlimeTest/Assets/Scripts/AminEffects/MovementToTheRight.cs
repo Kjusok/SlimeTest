@@ -7,6 +7,7 @@ public class MovementToTheRight : MonoBehaviour
     
     private float _speed;
 
+    
     private void Awake()
     {
         _speed = Random.Range(_minSpeed, _maxSpeed);
@@ -14,6 +15,6 @@ public class MovementToTheRight : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate ( Vector3.right * _speed * Time.deltaTime);
+        transform.Translate(Vector3.right * _speed * Time.deltaTime);
     }
 }

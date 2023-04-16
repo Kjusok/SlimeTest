@@ -19,8 +19,7 @@ public class BillbordOrientation : MonoBehaviour
     private void Update()
     {
         var cameraXTransform = _mainCamera.transform;
-        var forward = transform.position - cameraXTransform.position;
-        forward.Normalize();
+        var forward = (transform.position - cameraXTransform.position).normalized;
         var up = Vector3.Cross(forward, cameraXTransform.right);
         transform.rotation = Quaternion.LookRotation(forward, up);
     }

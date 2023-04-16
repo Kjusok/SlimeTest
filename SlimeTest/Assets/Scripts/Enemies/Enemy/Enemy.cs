@@ -27,7 +27,12 @@ public class Enemy : MonoBehaviour, IDamageble
         Score = BaseScore;
         _heath = _maxHealth;
     }
-   
+    
+    public void Initialize(Player player)
+    {
+        Player = player;
+    }
+    
     public void TakeDamage(float damage)
     {
         _heath -= damage;
@@ -48,10 +53,5 @@ public class Enemy : MonoBehaviour, IDamageble
     
             Instantiate(_deathPrefab, transform.position, Quaternion.identity);
         }
-    }
-
-    public void Initialize(Player player)
-    {
-        Player = player;
     }
 }

@@ -5,17 +5,18 @@ public class LaunchPlayerMovement : MonoBehaviour
     [SerializeField] private EnemiesWaveSpawner _enemiesWaveSpawner;
     [SerializeField] private PlayerMovement _playerMovement;
 
+    
     private void Start()
     {
-        _enemiesWaveSpawner.LaunchPlayer += LaunchPlayer;
+        _enemiesWaveSpawner.WaveFinished += WaveFinished;
     }
 
     private void OnDestroy()
     {
-        _enemiesWaveSpawner.LaunchPlayer -= LaunchPlayer;
+        _enemiesWaveSpawner.WaveFinished -= WaveFinished;
     }
     
-    private void LaunchPlayer()
+    private void WaveFinished()
     {
         _playerMovement.StartMovement();
     }

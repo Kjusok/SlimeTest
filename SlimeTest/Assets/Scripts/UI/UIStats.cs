@@ -12,30 +12,30 @@ public class UIStats : MonoBehaviour
     
     private void Start()
     {
-        _player.StatsController.DamageChanged += DamageChangedHandler;
-        _player.StatsController.SpeedAttackChanged += SpeedAttackChangedHandler;
-        _player.StatsController.HealthChanged += HealthChangedHandler;
+        _player.StatsController.DamageChanged += OnDamageChanged;
+        _player.StatsController.SpeedAttackChanged += OnSpeedAttackChanged;
+        _player.StatsController.HealthChanged += OnHealthChanged;
     }
 
     private void OnDestroy()
     {
-        _player.StatsController.DamageChanged -= DamageChangedHandler;
-        _player.StatsController.SpeedAttackChanged -= SpeedAttackChangedHandler;
-        _player.StatsController.HealthChanged -= HealthChangedHandler;
+        _player.StatsController.DamageChanged -= OnDamageChanged;
+        _player.StatsController.SpeedAttackChanged -= OnSpeedAttackChanged;
+        _player.StatsController.HealthChanged -= OnHealthChanged;
     }
     
-    private void DamageChangedHandler(int damage)
+    private void OnDamageChanged(int damage)
     {
         _currentDamageText.text = damage.ToString();
     }
 
-    private void HealthChangedHandler(float health, float maxHealth)
+    private void OnHealthChanged(float health, float maxHealth)
     {
         _heathBar.fillAmount = health / maxHealth;
         _currentHealthUpText.text = maxHealth.ToString();
     }
 
-    private void SpeedAttackChangedHandler(float speedAttack)
+    private void OnSpeedAttackChanged(float speedAttack)
     {
         _currentAttackSpeedText.text = speedAttack.ToString("0.00");
     }

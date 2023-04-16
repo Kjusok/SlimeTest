@@ -28,8 +28,38 @@ public class EnemiesWaveSpawner : MonoBehaviour
     public List<Enemy> Enemies => _enemies;
     
     public event Action WavesFinished;
-    public event Action LaunchPlayer;
+    public event Action WaveFinished;
 
+
+    public void SpawnEnemiesWave()
+    {
+        _isAllEnemiesInWaveDead = false;
+        _counterWaves++;
+
+        UpdateCharacteristicsEnemy();
+        
+        for (int i = 0; i <= _enemiesInWave; i++)
+        {
+            SpawnEnemy();
+        }
+    }
+
+    private void SpawnEnemy()
+    {
+        var enemy = Instantiate(_typeOfEnemy,
+            new Vector3(_player.transform.position.x - Random.Range(OffsetMinX,OffsetMaxX),
+                _offsetY,
+                Random.Range(OffsetMinZ,OffsetMaxZ)),
+            Quaternion.identity).GetComponent<Enemy>();
+            
+        enemy.Dead += OnEnemyDead;
+
+        enemy.Initialize(_player);
+            
+        enemy.transform.SetParent(transform, false);
+            
+        _enemies.Add(enemy);
+    }
 
     private void UpdateCharacteristicsEnemy()
     {
@@ -46,37 +76,12 @@ public class EnemiesWaveSpawner : MonoBehaviour
             _offsetY = -OffsetY;
         }
     }
-    
-    public void SpawnEnemiesWave()
+
+    private void OnEnemyDead(Enemy enemy)
     {
-        _isAllEnemiesInWaveDead = false;
-        _counterWaves++;
-
-        UpdateCharacteristicsEnemy();
+        enemy.Dead -= OnEnemyDead;
         
-        for (int i = 0; i <= _enemiesInWave; i++)
-        {
-            var enemy = Instantiate(_typeOfEnemy,
-                new Vector3(_player.transform.position.x - Random.Range(OffsetMinX,OffsetMaxX),
-                _offsetY,
-                Random.Range(OffsetMinZ,OffsetMaxZ)),
-                Quaternion.identity).GetComponent<Enemy>();
-            
-            enemy.Dead += RemoveEnemyFromList;
-
-            enemy.Initialize(_player);
-            
-            enemy.transform.SetParent(transform, false);
-            
-            _enemies.Add(enemy);
-        }
-    }
-
-    private void RemoveEnemyFromList(Enemy enemy)
-    {
-        enemy.Dead -= RemoveEnemyFromList;
-        
-        _player.Wallet.Coins += enemy.Score;
+        _player.Wallet.AddCoins(enemy.Score);
 
         _enemies.Remove(enemy);
 
@@ -87,7 +92,7 @@ public class EnemiesWaveSpawner : MonoBehaviour
 
         if (!_enemies.Any() && _counterWaves < LastWaves && !_isAllEnemiesInWaveDead)
         {
-            LaunchPlayer?.Invoke();
+            WaveFinished?.Invoke();
             _isAllEnemiesInWaveDead = true;
         }
     }

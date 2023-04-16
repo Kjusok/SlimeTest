@@ -24,11 +24,6 @@ public class Player : MonoBehaviour, IDamageble
         StatsController.SpeedAttackChanged += OnSpeedAttackChanged;
     }
 
-    private void OnSpeedAttackChanged(float speedAttack)
-    {
-        _playerAnimations.CreateSpeedAttack(speedAttack);
-    }
-
     private void OnDestroy()
     {
         StatsController.SpeedAttackChanged -= OnSpeedAttackChanged;
@@ -47,5 +42,10 @@ public class Player : MonoBehaviour, IDamageble
             _playerAnimations.Death();
             IsDead = true;
         }
+    }
+    
+    private void OnSpeedAttackChanged(float speedAttack)
+    {
+        _playerAnimations.CreateSpeedAttack(speedAttack);
     }
 }

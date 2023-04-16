@@ -9,6 +9,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Projectile _projectilePrefab;
     [SerializeField] private Player _player;
 
+    
     /// <summary>
     /// This method use from Animations event
     /// </summary>
@@ -27,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
     
     private void SpawnProjectile()
     {
-        if (_closestEnemySearch.CurrentEnemy != null)
+        if (_closestEnemySearch.CurrentEnemy)
         {
             var projectile = Instantiate(_projectilePrefab, transform.position, transform.rotation);
             projectile.Launch(_closestEnemySearch.CurrentEnemy.transform, _player.StatsController.Damage);

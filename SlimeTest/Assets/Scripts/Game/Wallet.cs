@@ -7,7 +7,7 @@ public class Wallet
     public int Coins
     {
         get => _coins;
-        set
+        private set
         {
             _coins = value;
             ChangeScore();
@@ -20,5 +20,15 @@ public class Wallet
     private void ChangeScore()
     {
         Changed?.Invoke(Coins);
+    }
+    
+    public void AddCoins(int coins)
+    {
+        Coins += coins;
+    }
+
+    public void BuyFromPrice(int coins)
+    {
+        Coins -= coins;
     }
 }

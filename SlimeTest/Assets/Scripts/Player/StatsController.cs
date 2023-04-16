@@ -18,6 +18,7 @@ public class StatsController
     public event Action<float,float> HealthChanged;
     public event Action<float> SpeedAttackChanged;
 
+    
     public StatsController()
     {
         Damage = StartDamage;
