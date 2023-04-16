@@ -1,7 +1,7 @@
 ﻿public class Market
 {
-    public int PriceForCharacteristics { get; private set; } = 25;
-    public int PriceForRecoverHealth { get; private set; } = 10;
+    public readonly int PriceForCharacteristics = 25;
+    public readonly int PriceForRecoverHealth = 10;
 
 
     public void TryBuyUpgrade(Wallet wallet)
